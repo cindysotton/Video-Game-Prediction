@@ -74,6 +74,11 @@ embed_component_CS= {'linkedin':"""<script src="https://platform.linkedin.com/ba
 embed_component_CA= {'linkedin':"""<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
     <div class=“badge-base LI-profile-badge” data-locale=“fr_FR” data-size=“medium” data-theme=“dark” data-type=“VERTICAL” data-vanity=“celine-anselmo” data-version=“v1”><a class=“badge-base__link LI-simple-link” href=“https://fr.linkedin.com/in/celine-anselmo?trk=profile-badge”>Céline ANSELMO</a></div>"""}
 
+embed_component_DR= {'linkedin':"""<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+    <div class=“badge-base LI-profile-badge” data-locale=“fr_FR” data-size=“medium” data-theme=“dark” data-type=“VERTICAL” data-vanity=“dorian-rivet” data-version=“v1”><a class=“badge-base__link LI-simple-link” href=“https://fr.linkedin.com/in/dorian-rivet?trk=profile-badge”>Dorian Rivet</a></div>"""}
+
+embed_component_KM= {'linkedin':"""<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
+    <div class=“badge-base LI-profile-badge” data-locale=“fr_FR” data-size=“medium” data-theme=“dark” data-type=“VERTICAL” data-vanity=“karine-minatchy-6644a5136” data-version=“v1”><a class=“badge-base__link LI-simple-link” href=“https://www.linkedin.com/in/karine-minatchy-6644a5136?trk=profile-badge”>Karine Minatchy</a></div>"""}
 
 
 # 2. horizontal menu
@@ -107,14 +112,10 @@ if selected == "Projet":
 
     col3, col4 = st.columns(2)
     with col3:
-        url = "https://www.linkedin.com/in/dorian-rivet/"
-        st.markdown("[Dorian RIVET](%s)" % url)
+        components.html(embed_component_KM['linkedin'],height=310)
     with col4:
-        url = "https://www.linkedin.com/in/karine-minatchy-6644a5136/"
-        st.markdown("[Karine Minatchy ](%s)" % url)
+        components.html(embed_component_DR['linkedin'],height=310)
         
-
-
 
 
 
@@ -165,15 +166,13 @@ if selected == "Méthodologie":
         except:
             st.error("Impossible d'afficher l'image")
 
-        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-        st.markdown("<p class='big-font'>L'objectif du test est de comparer les moyennes des deux échantillons et de conclure sur l'influence d'une variable explicative catégorielle sur la loi dune variable continue à expliquer. Lorsque la p-value (PR(>F)) est inférieur à 5%, on rejette l'hypothèse selon laquelle la variable n'influe pas sur Global_Sales.</p>", unsafe_allow_html=True)
-        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-        st.markdown("<p class='big-font'>Nous notons que les autres variables explicatives influent sur la valeur cible. Nous procèderons donc à une analyse complémentaire pour identifier le poids des variables lors de la modélisation.</p>", unsafe_allow_html=True)
+        st.markdown("L'objectif du test est de comparer les moyennes des deux échantillons et de conclure sur l'influence d'une variable explicative catégorielle sur la loi dune variable continue à expliquer. Lorsque la p-value (PR(>F)) est inférieur à 5%, on rejette l'hypothèse selon laquelle la variable n'influe pas sur Global_Sales")
+
+        st.markdown("Nous notons que les autres variables explicatives influent sur la valeur cible. Nous procèderons donc à une analyse complémentaire pour identifier le poids des variables lors de la modélisation.")
 
         #variables explicatives
-        st.markdown('### Corrélation entre les variables explicatives:')
-        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-        st.markdown("<p class='big-font'>Nous avons utilisé la méthode statistique V de Cramer pour mesurer le niveau de corrélation entre nos variables explicatives de type qualitatives.</p>", unsafe_allow_html=True)
+        st.markdown('<p class="bigpurple">Corrélation entre les variables explicatives:</p>', unsafe_allow_html=True)
+        st.markdown("Nous avons utilisé la méthode statistique V de Cramer pour mesurer le niveau de corrélation entre nos variables explicatives de type qualitatives")
         
         #image stats2
         image_path = "stats2.png"
@@ -183,8 +182,9 @@ if selected == "Méthodologie":
         except:
             st.error("Impossible d'afficher l'image")
 
-        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-        st.markdown("<p class='big-font'>Cette analyse a permis de mettre en valeur des relations fortes comme le genre et le publisher et de mettre de côté des analyses comme platform et genre où il n'y a pas de corrélation.</p>", unsafe_allow_html=True)
+        st.markdown("Cette analyse a permis de mettre en valeur des relations fortes comme le genre et le publisher et de mettre de côté des analyses comme platform et genre où il n'y a pas de corrélation.")
+
+# Modelisation
 if selected == "Modélisation":
     tab1, tab2, tab3 = st.tabs(["Introduction", "Etapes de la Modélisation", 'Résultats'])
     with tab1:

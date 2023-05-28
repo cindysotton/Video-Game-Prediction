@@ -6,8 +6,9 @@ import plotly.express as px
 from bokeh.plotting import figure, output_notebook, show, curdoc
 from bokeh.models import BoxAnnotation, ColumnDataSource, Range1d, LabelSet
 from bokeh.models.tools import HoverTool
-from bokeh.layouts import row, TabPanel, Tabs
+from bokeh.layouts import row
 from bokeh.models import Range1d, LabelSet
+from bokeh.models.widget import TabPanel, Tabs
 from bokeh.palettes import inferno
 from sklearn import model_selection
 from sklearn import ensemble

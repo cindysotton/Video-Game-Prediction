@@ -4,10 +4,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
 from bokeh.plotting import figure, output_notebook, show, curdoc
-from bokeh.models import BoxAnnotation, ColumnDataSource, Range1d, LabelSet
+from bokeh.models import BoxAnnotation, ColumnDataSource, Range1d
 from bokeh.models.tools import HoverTool
 from bokeh.layouts import row
-from bokeh.models import Range1d, LabelSet, TabPanel, Tabs
+from bokeh.models import Range1d, Title, TabPanel, Tabs
 from bokeh.palettes import inferno
 from sklearn import model_selection
 from sklearn import ensemble
@@ -363,7 +363,7 @@ if selected == "Analyse":
         color = "gray",
         source = source5,
         legend_label="Global_Sales")
-        labels = LabelSet(x='weight', y='height', text='names',
+        labels = Title(x='weight', y='height', text='names',
                 x_offset=5, y_offset=5, render_mode='canvas')
         p5.add_layout(labels)
         tab1 = TabPanel(child = p1,

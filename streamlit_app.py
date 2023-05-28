@@ -352,15 +352,15 @@ if selected == "Analyse":
         labels = LabelSet(x='weight', y='height', text='names',
                 x_offset=5, y_offset=5, render_mode='canvas')
         p5.add_layout(labels)
-        tab1 = Panel(child = p1,
+        tab1 = TabPanel(child = p1,
                 title = "NA_Sales")
-        tab2 = Panel(child = p2,
+        tab2 = TabPanel(child = p2,
                 title = "EU_Sales")
-        tab3 = Panel(child = p3,
+        tab3 = TabPanel(child = p3,
                 title = "JP_Sales")
-        tab4 = Panel(child = p4,
+        tab4 = TabPanel(child = p4,
                 title = "Others_Sales")
-        tab5 = Panel(child = p5,
+        tab5 = TabPanel(child = p5,
                 title = "Globales")
         tabs = Tabs(tabs = [tab5, tab2, tab3, tab4, tab1])
         doc = curdoc()

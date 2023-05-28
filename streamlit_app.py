@@ -32,17 +32,32 @@ import streamlit.components.v1 as components
 #base="light"
 #primaryColor="#9400d3"
 
-st.set_page_config(page_title='Game Project Prediction', 
-                   page_icon='https://cdn-icons-png.flaticon.com/512/3971/3971167.png', 
-                   layout="centered", initial_sidebar_state="expanded",
-                    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
-    }
-)
+def set_theme():
+    st.set_page_config(
+        page_title="Game Project Prediction",
+        page_icon=":video_game:",
+        layout="centered",
+        initial_sidebar_state="expanded",
+    )
+
+    # Personnalisation du thème
+    st.markdown(
+        """
+        <style>
+        .css-1aumxhk {  /* Exemple de sélecteur CSS */
+            background-color: #0E1117;
+            primaryColor="#9400d3";
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+# fichiers 
 df = pd.read_csv('vgsales_all1.csv')
 df_ml = pd.read_csv('df_ml.csv')
+
+# dictionnaire de couleurs
 DICT_GENRE = {'Role-Playing': 'dodgerblue',
         'Action': 'tomato',
         'Shooter': 'mediumaquamarine',

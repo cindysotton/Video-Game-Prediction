@@ -1,7 +1,8 @@
 streamlit 
 streamlit_option_menu 
 pandas 
-matplotlib plotly 
+matplotlib 
+plotly 
 bokeh 
 scikit-learn 
 seaborn 

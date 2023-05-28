@@ -1,4 +1,4 @@
-streamlit 
+streamlit===2.4.3
 streamlit_option_menu 
 pandas
 matplotlib 

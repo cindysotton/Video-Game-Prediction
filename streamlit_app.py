@@ -383,7 +383,7 @@ if selected == "Analyse":
                      values=df['Global_Sales'],
                      names=df['Platform'],
                      color_discrete_sequence=color)
-        fig.show()
+        st.plotly_chart(fig, use_container_width=True)
                         
         
 

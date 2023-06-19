@@ -277,99 +277,6 @@ Le dataset obtenu est celui utilisé pour la visualisation et les statistiques""
 
         st.markdown("Cette analyse a permis de mettre en valeur des relations fortes comme le genre et le publisher et de mettre de côté des analyses comme platform et genre où il n'y a pas de corrélation.")
 
-# Modelisation
-if selected == "Modélisation":
-    tab1, tab2, tab3 = st.tabs(["Introduction", "Etapes de la Modélisation", 'Résultats'])
-    with tab1:
-        st.markdown('### Dataset Modélisation:')
-        st.text('Variable Cible')
-        st.markdown('-  Global_Sales')
-         
-        
-        st.text('Variables Explicatives')
-            
-
-        st.markdown("-  L'année de sortie (Year)  \n-  Le genre (Genre)  \n-  Le studio l’ayant développé (Studio)  \n-  L’éditeur l’ayant publié (Publisher)  \n-  La plateforme sur laquelle le jeu est sortie (Platform)  \n-  Les notes utilisateurs (Critic_Score)")  
-        st.markdown("Nous avons choisi d'appliquer des modèles de régression pour prédire notre variable en quantité (régression linéaire, arbre de décision, forêt aléatoire). ")
-        
-    with tab2:
-        #Préprocessing Etapes
-        st.markdown('### Pre-processing:')
-        st.markdown('Etape 1: Clustering des variables studio et publisher')
-        st.markdown('-  Suite au nombre important de modalités dans ces trois colonnes (+700 pour studio), nous avons simplifié les variables en utilisant la méthode du clustering. Studio, Publisher: 1 à 4 suivant leur montant de Global_Sales')
-        st.markdown('Etape 2: Suppression des variables non pertinentes pour la modélisation (name, region sales, description)  \n Etape 3: Encoding des variables catégorielles')
-        #Modélisation Etapes
-        st.markdown('### Modélisation:')
-        #st.markdown('Etape 1: Clustering des variables studio et publisher')
-        st.markdown("Etape 2: Analyse de l'importance des variables, Itération 2  \n")
-        st.markdown('### Résultats:')
-        # Graph importance 
-        v1 = ([0.33011073, 0.21852045, 0.00776532, 0.062745  , 0.0032006 ,
-        0.00506196, 0.00514901, 0.01860793, 0.00530342, 0.00532782,
-        0.01765334, 0.00209605, 0.01434875, 0.01864197, 0.02456184,
-        0.01448861, 0.02698887, 0.00310434, 0.00044673, 0.03785596,
-        0.00462839, 0.00362745, 0.09522153, 0.00242704, 0.00349292,
-        0.00649888, 0.00348894, 0.00684423, 0.0031338 , 0.00686099,
-        0.00162643, 0.02738152, 0.0014133 , 0.01008641, 0.00066476,
-        0.00062469])
-
-        v2 = (['Critic_Score', 'Year', 'cat_publi', 'cat_studio',
-        'Genre_Action-Adventure', 'Genre_Adventure', 'Genre_Fighting',
-        'Genre_Misc', 'Genre_Music', 'Genre_Party', 'Genre_Platform',
-        'Genre_Puzzle', 'Genre_Racing', 'Genre_Role-Playing', 'Genre_Shooter',
-        'Genre_Simulation', 'Genre_Sports', 'Genre_Strategy', 'Platform_DC',
-        'Platform_DS', 'Platform_GBA', 'Platform_GC',
-        'Multi_Plateforme', 'Platform_N64', 'Platform_NS',
-        'Platform_PC', 'Platform_PS', 'Platform_PS2', 'Platform_PS3',
-        'Platform_PS4', 'Platform_PSP', 'Platform_Wii', 'Platform_WiiU',
-        'Platform_X360', 'Platform_XB', 'Platform_XOne'])
-
-        importances = v1
-        feat_importances = pd.Series(importances, index=v2)
-
-        # Trier les variables par ordre d'importance décroissante
-        feat_importances = feat_importances.sort_values(ascending=False).head(10)
-
-        # Afficher le graphique en barres
-        fig, ax = plt.subplots(figsize=(8, 6))
-        ax.bar(feat_importances.index, feat_importances.values, color="darkviolet")
-        ax.set_title("Importance de chaque variable")
-        ax.set_ylabel("Importance")
-        ax.tick_params(axis="x", rotation=75)
-        
-
-        # Afficher le graphique dans Streamlit
-        sns.set(style="ticks", context="talk")
-        plt.style.use("dark_background")
-        st.pyplot(fig)
-        st.markdown('Notre analyse nous indique que les variables Critic_score et Year sont celles qui ont le plus de poids.')
-        st.markdown("Etape 3: Calcul des meilleurs hyperparamètres via une GridSearch.")
-        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-        
-
-
-        st.markdown("Nous avons choisi d'appliquer des modèles de régression pour prédire notre variable en quantité (régression linéaire, arbre de décision, forêt aléatoire).")
-        
-        
-    with tab3:
-        st.markdown("### Résultats")
-        
-        # Graph Résultats
-        x = ["Régression Logistique","Arbre de Décision","Random Forest"]
-        y = [0.11884109217929484,-0.2,0.10571851988597436]
-        fig, ax = plt.subplots(figsize=(6, 6))
-        color = ['#EEA2AD','#87CEFA','#8470FF']
-        ax.bar(x, y, color=color, width=0.6)
-        ax.set_ylim(-0.5, 1)
-        ax.grid(axis='y')
-        ax.set_title("Résultats")
-        ax.tick_params(axis="x", rotation=55)
-        sns.set(style="ticks", context="talk")
-        plt.style.use("dark_background")
-        st.pyplot(fig)
-        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-        st.markdown('>Les performances des modèles ne sont pas bonnes.  \nNous ne pouvons donc prévoir les ventes !')
-
 
 if selected == "Analyse":
     genre = st.radio(
@@ -1138,9 +1045,107 @@ if selected == "Analyse":
         st.pyplot(fig2,facecolor='black', use_container_width=True)
         st.markdown("Nintendo EAD est le leader du marché. En excluant Nintendo, on constate qu'il y a un studio qui se démarque en fonction des régions :  \n -    NA : EA Tiburon\n -    EU : EA Canada\n -    JP : Game Freak et Capcom")
 
+# Modelisation
+if selected == "Modélisation":
+    tab1, tab2, tab3 = st.tabs(["Introduction", "Etapes de la Modélisation", 'Résultats'])
+    with tab1:
+        st.header('Dataset Modélisation:')
+        st.subheader('Variable Cible')
+        st.markdown('-  Global_Sales')
+         
+        
+        st.subheader('Variables Explicatives')
+            
+
+        st.markdown("-  L'année de sortie (Year)  \n-  Le genre (Genre)  \n-  Le studio l’ayant développé (Studio)  \n-  L’éditeur l’ayant publié (Publisher)  \n-  La plateforme sur laquelle le jeu est sortie (Platform)  \n-  Les notes utilisateurs (Critic_Score)")  
+        st.markdown("Nous avons choisi d'appliquer des modèles de régression pour prédire notre variable en quantité (régression linéaire, arbre de décision, forêt aléatoire). ")
+        
+    with tab2:
+        #Préprocessing Etapes
+        st.markdown('### Pre-processing:')
+        st.markdown('Etape 1: Clustering des variables studio et publisher')
+        st.markdown('-  Suite au nombre important de modalités dans ces trois colonnes (+700 pour studio), nous avons simplifié les variables en utilisant la méthode du clustering. Studio, Publisher: 1 à 4 suivant leur montant de Global_Sales')
+        st.markdown('Etape 2: Suppression des variables non pertinentes pour la modélisation (name, region sales, description)  \n Etape 3: Encoding des variables catégorielles')
+        #Modélisation Etapes
+        st.markdown('### Modélisation:')
+        #st.markdown('Etape 1: Clustering des variables studio et publisher')
+        st.markdown("Etape 2: Analyse de l'importance des variables, Itération 2  \n")
+        st.markdown('### Résultats:')
+        # Graph importance 
+        v1 = ([0.33011073, 0.21852045, 0.00776532, 0.062745  , 0.0032006 ,
+        0.00506196, 0.00514901, 0.01860793, 0.00530342, 0.00532782,
+        0.01765334, 0.00209605, 0.01434875, 0.01864197, 0.02456184,
+        0.01448861, 0.02698887, 0.00310434, 0.00044673, 0.03785596,
+        0.00462839, 0.00362745, 0.09522153, 0.00242704, 0.00349292,
+        0.00649888, 0.00348894, 0.00684423, 0.0031338 , 0.00686099,
+        0.00162643, 0.02738152, 0.0014133 , 0.01008641, 0.00066476,
+        0.00062469])
+
+        v2 = (['Critic_Score', 'Year', 'cat_publi', 'cat_studio',
+        'Genre_Action-Adventure', 'Genre_Adventure', 'Genre_Fighting',
+        'Genre_Misc', 'Genre_Music', 'Genre_Party', 'Genre_Platform',
+        'Genre_Puzzle', 'Genre_Racing', 'Genre_Role-Playing', 'Genre_Shooter',
+        'Genre_Simulation', 'Genre_Sports', 'Genre_Strategy', 'Platform_DC',
+        'Platform_DS', 'Platform_GBA', 'Platform_GC',
+        'Multi_Plateforme', 'Platform_N64', 'Platform_NS',
+        'Platform_PC', 'Platform_PS', 'Platform_PS2', 'Platform_PS3',
+        'Platform_PS4', 'Platform_PSP', 'Platform_Wii', 'Platform_WiiU',
+        'Platform_X360', 'Platform_XB', 'Platform_XOne'])
+
+        importances = v1
+        feat_importances = pd.Series(importances, index=v2)
+
+        # Trier les variables par ordre d'importance décroissante
+        feat_importances = feat_importances.sort_values(ascending=False).head(10)
+
+        # Afficher le graphique en barres
+        fig, ax = plt.subplots(figsize=(8, 6))
+        ax.bar(feat_importances.index, feat_importances.values, color="darkviolet")
+        ax.set_title("Importance de chaque variable")
+        ax.set_ylabel("Importance")
+        ax.tick_params(axis="x", rotation=75)
+        
+
+        # Afficher le graphique dans Streamlit
+        sns.set(style="ticks", context="talk")
+        plt.style.use("dark_background")
+        st.pyplot(fig)
+        st.markdown('Notre analyse nous indique que les variables Critic_score et Year sont celles qui ont le plus de poids.')
+        st.markdown("Etape 3: Calcul des meilleurs hyperparamètres via une GridSearch.")
+        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+        
+
+
+        st.markdown("Nous avons choisi d'appliquer des modèles de régression pour prédire notre variable en quantité (régression linéaire, arbre de décision, forêt aléatoire).")
+        
+        
+    with tab3:
+        st.markdown("### Résultats")
+        
+        # Graph Résultats
+        x = ["Régression Logistique","Arbre de Décision","Random Forest"]
+        y = [0.11884109217929484,-0.2,0.10571851988597436]
+        fig, ax = plt.subplots(figsize=(6, 6))
+        color = ['#EEA2AD','#87CEFA','#8470FF']
+        ax.bar(x, y, color=color, width=0.6)
+        ax.set_ylim(-0.5, 1)
+        ax.grid(axis='y')
+        ax.set_title("Résultats")
+        ax.tick_params(axis="x", rotation=55)
+        sns.set(style="ticks", context="talk")
+        plt.style.use("dark_background")
+        st.pyplot(fig)
+        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+        st.markdown('>Les performances des modèles ne sont pas bonnes.  \nNous ne pouvons donc prévoir les ventes !')
+
+
+
+
+
 
 if selected == "Conclusion":
     st.markdown("""Des difficultés ont été rencontrées pour prédire les ventes en quantité en partant de notre dataset. 
+
 **Les difficultés principales identifiées sont:**
 * Le match de la collecte de données via scrapping
 * Le non partitionnement par la durée sur les ventes

@@ -108,18 +108,16 @@ if selected == "Projet":
     
     st.subheader("Contacter l'équipe")
     col1, col2 = st.columns(2)
-
     with col1:
-        components.html(embed_component_CA['linkedin'],height=310)
-  
+        st.image("linkedin/Celine_Anselmo.png")
     with col2:
-        components.html(embed_component_CS['linkedin'],height=310)
+        st.image("linkedin/Cindy_Sotton.png")
 
-    col3, col4 = st.columns(2)
-    with col3:
-        components.html(embed_component_KM['linkedin'],height=310)
-    with col4:
-        components.html(embed_component_DR['linkedin'],height=310)
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image("linkedin/Karine_Minatchy.png")
+    with col2:
+        st.image("linkedin/Dorian_Rivet.png")
         
 
 

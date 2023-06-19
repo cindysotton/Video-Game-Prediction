@@ -108,7 +108,6 @@ if selected == "Projet":
         st.image("linkedin/Karine_Minatchy.png")
         st.markdown("[![LinkedIn](https://www.linkedin.com/in/karine-minatchy/)](linkedin/Karine_Minatchy.png)")
     with col2:
-        st.image("linkedin/Dorian_Rivet.png")
         st.markdown("[![LinkedIn](https://www.linkedin.com/in/dorian-rivet/)](linkedin/Dorian_Rivet.png)")
         
 

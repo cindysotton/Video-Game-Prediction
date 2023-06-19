@@ -134,8 +134,16 @@ Les principales étapes identifiées dans le cadre du projet sont:
 * Conclusion et préconisations
 Afin de répondre, au mieux, à la problématique, nous avons pris contact avec un expert métier (ancien Développeur d’Ubisoft) qui aura pu nous partager ses connaissances sur le secteur, mais aussi son expertise en Data Science étant lui même Data Scientist.""")
 
-    st.markdown("""**Entretien métier** :
-
+    # texte violet
+    st.markdown("""
+    <style>
+    .purple {
+        color : darkviolet;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    st.markdown('<p class="purple">Entretien métier :</p>', unsafe_allow_html=True)
+    st.markdown("""
 Voici les points essentiels qui nous aurons aidé dans notre approche pour répondre à la problématique :
 
 1. Les variables qui sont intéressantes à analyser pour la prédiction d’un jeu aurait pu être les suivantes :
@@ -153,9 +161,18 @@ if selected == "Méthodologie":
     image = Image.open('media/manette.jpeg')
     st.image(image)
     tab1, tab2, statistiques = st.tabs(["Extraction des données", "Data processing",'Statistiques'])
+    # texte violet
+    st.markdown("""
+    <style>
+    .purple {
+        color : darkviolet;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     with tab1:
+        st.markdown('<p class="purple">Nos données - Dataset Vgchart:</p>', unsafe_allow_html=True)
         st.markdown("""
-**Nos données - Dataset Vgchart:**
 
 Le dataset Vgchart est le jeu initial fourni dans le cadre du projet disponible sur Kaggle. les variables se répartissent comme suit:
 * Nom
@@ -163,10 +180,9 @@ Le dataset Vgchart est le jeu initial fourni dans le cadre du projet disponible 
 * Genre
 * Plateforme
 * Publisher
-* Ventes par région
-
-**Complétion des données - Utilisation du scrapping:**
-
+* Ventes par région""")
+        st.markdown('<p class="purple">v</p>', unsafe_allow_html=True)
+        st.markdown("""
 Nous avons scrappé le site Vgchart pour récupérer : 
 * des données plus récentes
 * les variables Critic Score et Studio. 

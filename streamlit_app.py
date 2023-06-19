@@ -134,7 +134,8 @@ Les principales étapes identifiées dans le cadre du projet sont:
 * Conclusion et préconisations
 Afin de répondre, au mieux, à la problématique, nous avons pris contact avec un expert métier (ancien Développeur d’Ubisoft) qui aura pu nous partager ses connaissances sur le secteur, mais aussi son expertise en Data Science étant lui même Data Scientist.""")
 
-    st.markdown("""Entretien métier :
+    st.markdown("""**Entretien métier** :
+
 Voici les points essentiels qui nous aurons aidé dans notre approche pour répondre à la problématique :
 
 1. Les variables qui sont intéressantes à analyser pour la prédiction d’un jeu aurait pu être les suivantes :

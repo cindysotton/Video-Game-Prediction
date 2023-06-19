@@ -108,10 +108,7 @@ if selected == "Projet":
         st.image("linkedin/Karine_Minatchy.png")
         st.markdown("[![LinkedIn](https://www.linkedin.com/in/karine-minatchy/)](linkedin/Karine_Minatchy.png)")
     with col2:
-        st.markdown("[![LinkedIn](https://www.linkedin.com/in/dorian-rivet/)](linkedin/Dorian_Rivet.png)")
-        
-
-
+        st.markdown('<a href="https://www.linkedin.com/in/cindysotton/"><img src="linkedin/Cindy_Sotton.png"></a>', unsafe_allow_html=True)
 
 # Méthodologie
 if selected == "Méthodologie":

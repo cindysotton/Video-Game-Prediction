@@ -315,6 +315,31 @@ if selected == "Analyse":
         )
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
+        data_NA = df.groupby(by=['Year'])['NA_Sales'].sum().reset_index()
+        data_EU = df.groupby(by=['Year'])['EU_Sales'].sum().reset_index()
+        data_JP = df.groupby(by=['Year'])['JP_Sales'].sum().reset_index()
+        data_Others = df.groupby(by=['Year'])['Other_Sales'].sum().reset_index()
+        data_globales = df.groupby(by=['Year']).sum().reset_index()
+        
+        fig = px.line(data_frame=data_globales, x='Year', y='Global_Sales', labels={'Year': 'Year', 'Global_Sales': 'Sales'})
+        fig.add_scatter(x=data_NA['Year'], y=data_NA['NA_Sales'], mode='lines', name='NA_Sales', line_color='darkviolet')
+        fig.add_scatter(x=data_EU['Year'], y=data_EU['EU_Sales'], mode='lines', name='EU_Sales', line_color='royalblue')
+        fig.add_scatter(x=data_JP['Year'], y=data_JP['JP_Sales'], mode='lines', name='JP_Sales', line_color='hotpink')
+        fig.add_scatter(x=data_Others['Year'], y=data_Others['Other_Sales'], mode='lines', name='Other_Sales', line_color='aqua')
+        fig.add_scatter(x=data_globales['Year'], y=data_globales['Global_Sales'], mode='lines', name='Global_Sales', line_color='gray')
+        fig.update_layout(
+            xaxis_title='Year',
+            yaxis_title='Sales',
+            legend_title='Sales',
+            width=800,
+            height=600,
+            yaxis_range=[0, 600],
+            title='Sales by Year'
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
+
+
         
         st.markdown(
             """Le marché du jeu vidéo a commencé sa croissance à partir de la seconde moitié des années 90 dynamisé par le lancement de nouvelles plateformes: \n\n -   Sortie de la PlayStation en 1995 \n\n - Nouvel élan dans les années 2000 avec la sortie de la Nintendo 64. \n\n - Après une forte croissance (2005 à 2010), le marché revient à sa tendance initiale. """)

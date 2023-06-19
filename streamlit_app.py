@@ -96,8 +96,6 @@ if selected == "Projet":
     st.markdown("""Ce projet a permis de tirer parti des connaissances apprises lors du cursus de formation Datascientest en gérant un projet complet pour répondre à une problématique donnée.
 * Techniquement :  Les données étant incomplètes il faut avant tout venir compléter et actualiser le jeu de données pour affiner au mieux l'analyse et les tendances. 
 * Economiquement: Le projet prend son intérêt dans l'estimation des ventes en quantité. Grâce a ce dernier,  en cas de réussite, nous pourrons expliquer et prévoir les ventes et spécifier a quoi le succès est dû (genre, notes, divers).  Pour les équipes en charge de la prise de décision du lancement d'un jeu vidéo, cette prédiction aura énormément de valeur, car elle permettra de savoir si il est pertinent ou pas de lancer sa production en fonction des objectifs de rentabilité fixés.""")
-
-
     
     st.subheader("Contacter l'équipe")
     col1, col2, col3, col4 = st.columns(4)
@@ -126,6 +124,25 @@ if selected == "Projet":
         
         st.markdown(f'<a href="{linkedin_dorian}" target="_blank"><img src="{image_dorian}" width="200"></a>', unsafe_allow_html=True)
 
+    st.subheader("Objectifs")
+    st.markdown("""Nous devons,  à partir du dataset fourni et des variables collectées, prédire les ventes de la sortie d'un jeu vidéo. Pour ce faire nous avons identifié les principaux objectifs et étapes qui vont jalonner la réalisation du projet.
+Les principales étapes identifiées dans le cadre du projet sont:  
+* Extraction des données et nouvelles données
+* Data processing
+* Data profiling
+* Modélisation des données
+* Conclusion et préconisations
+Afin de répondre, au mieux, à la problématique, nous avons pris contact avec un expert métier (ancien Développeur d’Ubisoft) qui aura pu nous partager ses connaissances sur le secteur, mais aussi son expertise en Data Science étant lui même Data Scientist.""")
+
+    st.markdown("""Entretien métier :
+Voici les points essentiels qui nous aurons aidé dans notre approche pour répondre à la problématique :
+* Les variables qui sont intéressantes à analyser pour la prédiction d’un jeu aurait pu être les suivantes :
+** les tendances marché
+** le cours de la bourse
+** le mode de commercialisation (abonnement, pass...)
+** la popularité en ligne (nombre de commentaires sur un trailer, commentaires Redit)
+* Avoir une approche avec de la temporalité est également indispensable.
+En l’état notre dataset ne nous permettait pas d’ajouter une notion de temporalité, de part notre avancé et les difficultés que nous avons rencontré, nous n’avons pu tirer pleinement parti de ces recommandation mais néanmoins, elle nous ont donné des idées pour apporter des éléments de réponses parallèle à la problématique dans la conclusion.""")
 
 # Méthodologie
 if selected == "Méthodologie":

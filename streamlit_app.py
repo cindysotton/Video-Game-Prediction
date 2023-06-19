@@ -293,20 +293,17 @@ if selected == "Analyse":
     if genre == "Le marché":
         st.title('VgChartz : Analyse des données')
         st.markdown("Estimer les ventes d'un produit avant de le lancer est une étape essentielle dans la vie d'un produit. C'est ce que nous allons essayer de faire dans le cadre de ce projet.  \n Notre étude nous portera dans l'univers du jeu vidéo.")
-
         data_NA = df.groupby(by=['Year'])['NA_Sales'].sum().reset_index()
         data_EU = df.groupby(by=['Year'])['EU_Sales'].sum().reset_index()
         data_JP = df.groupby(by=['Year'])['JP_Sales'].sum().reset_index()
         data_Others = df.groupby(by=['Year'])['Other_Sales'].sum().reset_index()
         data_globales = df.groupby(by=['Year']).sum().reset_index()
-        
         fig = px.line(data_frame=data_globales, x='Year', y='Global_Sales', labels={'Year': 'Year', 'Global_Sales': 'Sales'})
         fig.add_scatter(x=data_NA['Year'], y=data_NA['NA_Sales'], mode='lines', name='NA_Sales', line_color='darkviolet')
         fig.add_scatter(x=data_EU['Year'], y=data_EU['EU_Sales'], mode='lines', name='EU_Sales', line_color='royalblue')
         fig.add_scatter(x=data_JP['Year'], y=data_JP['JP_Sales'], mode='lines', name='JP_Sales', line_color='hotpink')
         fig.add_scatter(x=data_Others['Year'], y=data_Others['Other_Sales'], mode='lines', name='Other_Sales', line_color='aqua')
         fig.add_scatter(x=data_globales['Year'], y=data_globales['Global_Sales'], mode='lines', name='Global_Sales', line_color='gray')
-        
         fig.update_layout(
             xaxis_title='Year',
             yaxis_title='Sales',
@@ -316,7 +313,6 @@ if selected == "Analyse":
             yaxis_range=[0, 600],
             title='Sales by Year'
         )
-        
         fig.show()
 
         

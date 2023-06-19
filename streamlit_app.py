@@ -1127,7 +1127,7 @@ if selected == "Modélisation":
         # Graph Résultats
         x = ["Régression Logistique","Arbre de Décision","Random Forest"]
         y = [0.11884109217929484,-0.2,0.10571851988597436]
-        fig, ax = plt.subplots(figsize=(6, 9))
+        fig, ax = plt.subplots(figsize=(12, 6))
         color = ['#EEA2AD','#87CEFA','#8470FF']
         ax.bar(x, y, color=color, width=0.6)
         ax.set_ylim(-0.5, 1)

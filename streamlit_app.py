@@ -1148,19 +1148,20 @@ if selected == "Conclusion":
 Les approches que nous pourrions proposer pour pallier ces difficultés:
 * Trouver un positionnement sur le marché avec le :
 
-** Point de vue du studio
-** Point de vue du publisher
-** Point de vue sur une période de temps
+    * Point de vue du studio
+    * Point de vue du publisher
+    * Point de vue sur une période de temps
+
 * Interpréation différente entre les séries de jeux (GTA) et les one-shoot""")
 
-st.markdown("""
-**Il faut également prendre en compte pour ces projections les éléments suivants:**
-
-* Analyse de sentiment pour prédire l'engouement avant la sortie des jeux (commentaires sur le trailer, nombre de vues) 
-* Analyse du marché:
-
-** Concurrence: cours de la bourse sur les acteurs du jeu vidéo
-** Economique: pouvoir d'achat sur le marché (ex: crise économique)
-** Socioculturel: étude sur les comportements des consommateurs (ex: genre attendu par âge, pays)
-** Technologique: innovations sur le marché
-** Saisonnalité""")
+    st.markdown("""
+    **Il faut également prendre en compte pour ces projections les éléments suivants:**
+    
+    * Analyse de sentiment pour prédire l'engouement avant la sortie des jeux (commentaires sur le trailer, nombre de vues) 
+    * Analyse du marché:
+    
+    * Concurrence: cours de la bourse sur les acteurs du jeu vidéo
+    * Economique: pouvoir d'achat sur le marché (ex: crise économique)
+    * Socioculturel: étude sur les comportements des consommateurs (ex: genre attendu par âge, pays)
+    * Technologique: innovations sur le marché
+    * Saisonnalité""")

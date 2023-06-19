@@ -313,7 +313,7 @@ if selected == "Analyse":
             yaxis_range=[0, 600],
             title='Sales by Year'
         )
-        fig.show()
+        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
         
         st.markdown(

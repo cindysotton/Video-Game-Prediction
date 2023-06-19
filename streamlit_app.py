@@ -1123,12 +1123,11 @@ if selected == "Modélisation":
         
         
     with tab3:
-        st.markdown("### Résultats")
         
         # Graph Résultats
         x = ["Régression Logistique","Arbre de Décision","Random Forest"]
         y = [0.11884109217929484,-0.2,0.10571851988597436]
-        fig, ax = plt.subplots(figsize=(6, 6))
+        fig, ax = plt.subplots(figsize=(12, 9))
         color = ['#EEA2AD','#87CEFA','#8470FF']
         ax.bar(x, y, color=color, width=0.6)
         ax.set_ylim(-0.5, 1)
@@ -1138,7 +1137,6 @@ if selected == "Modélisation":
         sns.set(style="ticks", context="talk")
         plt.style.use("dark_background")
         st.pyplot(fig)
-        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
         st.markdown('>Les performances des modèles ne sont pas bonnes.  \nNous ne pouvons donc prévoir les ventes !')
 
 

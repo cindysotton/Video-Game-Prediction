@@ -95,10 +95,10 @@ if selected == "Projet":
     st.markdown("Estimer les ventes d'un produit avant son lancement peut être une véritable force pour la rentabilité d'une entreprise. Dans le cadre de ce projet nous allons essayer de déployer un modèle qui permettra de prédire les ventes d'un jeu.")
     
     st.subheader("Contacter l'équipe")
-        st.markdown("[![Click me](./app/static/Celine_Anselmo.png)](https://www.linkedin.com/in/celine-anselmo/)")
-        st.markdown("[![Click me](./app/static/Cindy_Sotton.png)](https://www.linkedin.com/in/cindysotton/)")
-        st.markdown("[![Click me](./app/static/Karine_Minatchy.png)](https://www.linkedin.com/in/karine-minatchy/)")
-        st.markdown("[![Click me](./app/static/Dorian_Rivet.png)](https://www.linkedin.com/in/dorian-rivet/)")
+    st.markdown("[![Click me](./app/static/Celine_Anselmo.png)](https://www.linkedin.com/in/celine-anselmo/)")
+    st.markdown("[![Click me](./app/static/Cindy_Sotton.png)](https://www.linkedin.com/in/cindysotton/)")
+    st.markdown("[![Click me](./app/static/Karine_Minatchy.png)](https://www.linkedin.com/in/karine-minatchy/)")
+    st.markdown("[![Click me](./app/static/Dorian_Rivet.png)](https://www.linkedin.com/in/dorian-rivet/)")
 
 
         

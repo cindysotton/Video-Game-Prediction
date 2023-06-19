@@ -64,20 +64,6 @@ def set_theme():
 df = pd.read_csv('vgsales_all1.csv')
 df_ml = pd.read_csv('df_ml.csv')
 
-# dictionnaire de couleurs
-DICT_GENRE = {'Role-Playing': 'dodgerblue',
-        'Action': 'tomato',
-        'Shooter': 'mediumaquamarine',
-        'Sports': 'mediumpurple',
-        'Platform': 'sandybrown',
-        'Racing': 'lightskyblue',
-        'Adventure': 'hotpink',
-        'Fighting': 'palegreen',
-        'Misc': 'violet',
-        'Strategy': 'gold',
-        'Simulation': 'lavender',
-        'Puzzle': 'salmon',
-        'Autre': 'aquamarine'}
 flierprops = dict(marker="X", markerfacecolor='darkviolet', markersize=12,
                   linestyle='none')
 
@@ -359,6 +345,9 @@ if selected == "Analyse":
 
     if genre == 'Plateformes':
         st.header('Zoom sur les plateformes')
+        # Remplacer les petites valeurs par autre aussi dans df
+        df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
+               'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
         # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
         DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
          'PSP': 'tomato',

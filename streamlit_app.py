@@ -1075,7 +1075,7 @@ if selected == "Modélisation":
         
         #Modélisation Etapes
         st.header('Modélisation:')
-        st.markdown('<p class="purple">Etape 1: Analyse de l importance des variables, Itération 2</p>', unsafe_allow_html=True)
+        st.markdown('<p class="purple">Etape 4: Analyse de l importance des variables, Itération 2</p>', unsafe_allow_html=True)
         
         st.header('Résultats:')
         # Graph importance 
@@ -1118,11 +1118,7 @@ if selected == "Modélisation":
         plt.style.use("dark_background")
         st.pyplot(fig)
         st.markdown('Notre analyse nous indique que les variables Critic_score et Year sont celles qui ont le plus de poids.')
-        st.markdown("Etape 3: Calcul des meilleurs hyperparamètres via une GridSearch.")
-        st.markdown("""<style>.big-font {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-        
-
-
+        st.markdown('<p class="purple">Etape 5: Calcul des meilleurs hyperparamètres via une GridSearch.</p>', unsafe_allow_html=True)
         st.markdown("Nous avons choisi d'appliquer des modèles de régression pour prédire notre variable en quantité (régression linéaire, arbre de décision, forêt aléatoire).")
         
         

@@ -95,50 +95,10 @@ if selected == "Projet":
     st.markdown("Estimer les ventes d'un produit avant son lancement peut être une véritable force pour la rentabilité d'une entreprise. Dans le cadre de ce projet nous allons essayer de déployer un modèle qui permettra de prédire les ventes d'un jeu.")
     
     st.subheader("Contacter l'équipe")
-    """
-    # Static file serving
-    """
-    
-    st.caption(
-        "[Code for this demo](https://github.com/streamlit/static-file-serving-demo/blob/main/streamlit_app.py)"
-    )
-    
-    """
-    Streamlit 1.18 allows you to serve small, static media files via URL. 
-    
-    ## Instructions
-    
-    - Create a folder `static` in your app's root directory.
-    - Place your files in the `static` folder.
-    - Add the following to your `config.toml` file:
-    
-    ```toml
-    [server]
-    enableStaticServing = true
-    ```
-    
-    You can then access the files on `<your-app-url>/app/static/<filename>`. Read more in our 
-    [docs](https://docs.streamlit.io/library/advanced-features/static-file-serving).
-    
-    ## Examples
-    
-    You can use this feature with `st.markdown` to put a link on an image:
-    """
-    
-    with st.echo():
+        st.markdown("[![Click me](./app/static/Celine_Anselmo.png)](https://www.linkedin.com/in/celine-anselmo/)")
         st.markdown("[![Click me](./app/static/Cindy_Sotton.png)](https://www.linkedin.com/in/cindysotton/)")
-    
-    """
-    Or you can use images in HTML or SVG:
-    """
-    
-    with st.echo():
-        st.markdown(
-            '<img src="./app/static/Cindy_Sotton.png" height="333" style="border: 5px solid orange">',
-            unsafe_allow_html=True,
-        )
-
-
+        st.markdown("[![Click me](./app/static/Karine_Minatchy.png)](https://www.linkedin.com/in/karine-minatchy/)")
+        st.markdown("[![Click me](./app/static/Dorian_Rivet.png)](https://www.linkedin.com/in/dorian-rivet/)")
 
 
         

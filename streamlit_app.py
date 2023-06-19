@@ -108,8 +108,10 @@ if selected == "Projet":
         st.image("linkedin/Karine_Minatchy.png")
         st.markdown("[![LinkedIn](https://www.linkedin.com/in/karine-minatchy/)](linkedin/Karine_Minatchy.png)")
     with col2:
-        st.image("linkedin/Cindy_Sotton.png", use_column_width=True)
-        st.markdown("[Cindy Sotton LinkedIn](https://www.linkedin.com/in/cindysotton/)")
+        linkedin_url = "https://www.linkedin.com/in/cindysotton/"
+        image_path = "linkedin/Cindy_Sotton.png"
+        st.markdown(f'<a href="{linkedin_url}" target="_blank"><img src="{image_path}"></a>', unsafe_allow_html=True)
+
 
 
 

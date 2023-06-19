@@ -237,18 +237,17 @@ Le dataset obtenu est celui utilisé pour la visualisation et les statistiques""
     with statistiques:
         #Analyses statistiques
 
-        # header violet
+        # texte violet
         st.markdown("""
         <style>
-        .bigpurple {
+        .purple {
             color : darkviolet;
-            font-size : 35px;
         }
         </style>
         """, unsafe_allow_html=True)
 
         #Global_Sales
-        st.markdown('<p class="bigpurple">Corrélation avec la variable cible: Global_Sales:</p>', unsafe_allow_html=True)
+        st.markdown('<p class="purple">Corrélation avec la variable cible: Global_Sales</p>', unsafe_allow_html=True)
         st.markdown("L'analyse de la variance ANOVA a été utilisée pour mettre en relation nos différentes variables explicatives: Platform, Genre, Studio, Publisher et notre variable cible Global_Sales.")
 
         #image stats1
@@ -264,7 +263,8 @@ Le dataset obtenu est celui utilisé pour la visualisation et les statistiques""
         st.markdown("Nous notons que les autres variables explicatives influent sur la valeur cible. Nous procèderons donc à une analyse complémentaire pour identifier le poids des variables lors de la modélisation.")
 
         #variables explicatives
-        st.markdown('<p class="bigpurple">Corrélation entre les variables explicatives:</p>', unsafe_allow_html=True)
+        st.markdown('<p class="purple">Corrélation entre les variables explicatives:</p>', unsafe_allow_html=True)
+
         st.markdown("Nous avons utilisé la méthode statistique V de Cramer pour mesurer le niveau de corrélation entre nos variables explicatives de type qualitatives")
         
         #image stats2

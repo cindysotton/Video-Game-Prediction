@@ -8,6 +8,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 import plotly.express as px
+import plotly.graph_objects as go
 import seaborn as sns
 
 from bokeh.plotting import figure, output_notebook, show, curdoc, save
@@ -312,10 +313,9 @@ if selected == "Analyse":
             height=600,
             yaxis_range=[0, 600]
         )
-        
         fig.update_traces(line=dict(width=3))
-        
         fig.show()
+        
         st.markdown(
             """Le marché du jeu vidéo a commencé sa croissance à partir de la seconde moitié des années 90 dynamisé par le lancement de nouvelles plateformes: \n\n -   Sortie de la PlayStation en 1995 \n\n - Nouvel élan dans les années 2000 avec la sortie de la Nintendo 64. \n\n - Après une forte croissance (2005 à 2010), le marché revient à sa tendance initiale. """)
         

@@ -154,7 +154,34 @@ if selected == "Méthodologie":
     st.image(image)
     tab1, tab2, statistiques = st.tabs(["Extraction des données", "Data processing",'Statistiques'])
     with tab1:
-        st.markdown('Nous avons scrappé le site Vgchart pour récupérer :  \n - Des données plus récentes  \n - Variables Critic Score et Studio en plus')
+        st.markdown("""
+**Nos données - Dataset Vgchart:**
+Le dataset Vgchart est le jeu initial fourni dans le cadre du projet disponible sur Kaggle. les variables se répartissent comme suit:
+* Nom
+* Date de sortie
+* Genre
+* Plateforme
+* Publisher
+* Ventes par région
+
+**Complétion des données - Utilisation du scrapping:**
+Nous avons scrappé le site Vgchart pour récupérer : 
+* des données plus récentes
+* les variables Critic Score et Studio. 
+
+Ce nouveau jeu annule et remplace le premier jeu de données de Vgchart.
+
+Pour compléter les données à disposition nous avons scrappé le site Metacritic et le site jeuvidéo.com avec les librairies Sélenium et BeautifulSoup pour collecter les notes utilisateurs et presse sur une communauté orientée mondiale et française.
+Le scrapping a permis de récupérer les informations suivantes:
+* Description
+* Studio
+* Note utilisateur
+* Nombre de note utilisateur
+* Note presse
+* Nombre de vote presse
+* Genre
+Les résultats n'étant pas à la hauteur autant pour Metacritic que pour jeuxvideo.com (% de Nan trop élevé) nous n'avons pas conservé les données. Pour jeuxvideo.com, les données avaient encore plus de Nan. En effet, les jeux scrappés avec un id français ne pouvaient communiquer avec le dataset initial.""")
+            
         st.markdown ('Voici notre nouveau dataset:') 
         st.write(df.head())
 

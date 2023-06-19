@@ -98,15 +98,15 @@ if selected == "Projet":
     col1, col2 = st.columns(2)
     with col1:
         st.image("linkedin/Celine_Anselmo.png")
-        st.markdown("[![LinkedIn](https://www.linkedin.com/in/celine-anselmo/)](linkedin/Celine_Anselmo.png)")
+        st.markdown("[![LinkedIn](https://www.linkedin.com/in/celine-anselmo/)](static/Celine_Anselmo.png)")
     with col2:
         st.image("linkedin/Cindy_Sotton.png")
-        st.markdown("[![LinkedIn](https://www.linkedin.com/in/cindysotton/)](linkedin/Cindy_Sotton.png)")
+        st.markdown("[![LinkedIn](https://www.linkedin.com/in/cindysotton/)](static/Cindy_Sotton.png)")
 
     col1, col2 = st.columns(2)
     with col1:
         st.image("linkedin/Karine_Minatchy.png")
-        st.markdown("[![LinkedIn](https://www.linkedin.com/in/karine-minatchy/)](linkedin/Karine_Minatchy.png)")
+        st.markdown("[![LinkedIn](https://www.linkedin.com/in/karine-minatchy/)](static/Karine_Minatchy.png)")
     with col2:
         st.markdown("[![Click me](app/static/Cindy_Sotton.png)](https://www.linkedin.com/in/cindysotton/)")
 

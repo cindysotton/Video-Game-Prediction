@@ -1,14 +1,23 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+from PIL import Image
+import streamlit.components.v1 as components
+
 import pandas as pd
+import numpy as np
+
 import matplotlib.pyplot as plt
 import plotly.express as px
-from bokeh.plotting import figure, output_notebook, show, curdoc
+import seaborn as sns
+
+pip install bokeh==2.4.3
+from bokeh.plotting import figure, output_notebook, show, curdoc, save
 from bokeh.models import BoxAnnotation, ColumnDataSource, Range1d
 from bokeh.models.tools import HoverTool
 from bokeh.layouts import row
-from bokeh.models import Range1d, LabelSet, TabPanel, Tabs
+from bokeh.models import Range1d, LabelSet, Tabs
 from bokeh.palettes import inferno
+
 from sklearn import model_selection
 from sklearn import ensemble
 from sklearn import svm
@@ -22,11 +31,9 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
-import numpy as np
 from sklearn.model_selection import GridSearchCV
-import seaborn as sns
-from PIL import Image
-import streamlit.components.v1 as components
+
+
 
 #[theme]
 #base="light"

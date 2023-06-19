@@ -95,10 +95,10 @@ if selected == "Projet":
     st.markdown("Estimer les ventes d'un produit avant son lancement peut être une véritable force pour la rentabilité d'une entreprise. Dans le cadre de ce projet nous allons essayer de déployer un modèle qui permettra de prédire les ventes d'un jeu.")
     
     st.subheader("Contacter l'équipe")
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("[![Click me](./app/static/Celine_Anselmo.png)](https://www.linkedin.com/in/celine-anselmo/)")
-    with col2:
+    with col3:
         st.markdown("[![Click me](./app/static/Cindy_Sotton.png)](https://www.linkedin.com/in/cindysotton/)")
     col1, col2 = st.columns(2)
     with col1:

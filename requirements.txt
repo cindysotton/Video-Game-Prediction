@@ -3,7 +3,7 @@ streamlit_option_menu
 pandas
 matplotlib 
 plotly 
-bokeh==2.4.3
+bokeh
 scikit-learn 
 seaborn 
 Pillow

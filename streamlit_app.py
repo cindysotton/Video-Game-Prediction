@@ -137,13 +137,13 @@ Afin de répondre, au mieux, à la problématique, nous avons pris contact avec 
     st.markdown("""Entretien métier :
 Voici les points essentiels qui nous aurons aidé dans notre approche pour répondre à la problématique :
 
-*** Les variables qui sont intéressantes à analyser pour la prédiction d’un jeu aurait pu être les suivantes :
+***1. Les variables qui sont intéressantes à analyser pour la prédiction d’un jeu aurait pu être les suivantes :
 * les tendances marché
 * le cours de la bourse
 * le mode de commercialisation (abonnement, pass...)
 * la popularité en ligne (nombre de commentaires sur un trailer, commentaires Redit)
 
-*** Avoir une approche avec de la temporalité est également indispensable.
+***2. Avoir une approche avec de la temporalité est également indispensable.
 En l’état notre dataset ne nous permettait pas d’ajouter une notion de temporalité, de part notre avancé et les difficultés que nous avons rencontré, nous n’avons pu tirer pleinement parti de ces recommandation mais néanmoins, elle nous ont donné des idées pour apporter des éléments de réponses parallèle à la problématique dans la conclusion.""")
 
 # Méthodologie

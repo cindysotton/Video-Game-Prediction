@@ -93,9 +93,9 @@ if selected == "Projet":
     st.image(image)
     st.title("La Data Science sera t elle le \"cheat code\" de la vente d'un jeu vidéo ?")
     st.markdown("Estimer les ventes d'un produit avant son lancement peut être une véritable force pour la rentabilité d'une entreprise. Dans le cadre de ce projet nous allons essayer de déployer un modèle qui permettra de prédire les ventes d'un jeu.")
-    st.markdown("Ce projet a permis de tirer parti des connaissances apprises lors du cursus de formation Datascientest en gérant un projet complet pour répondre à une problématique donnée.
-- Techniquement :  Les données étant incomplètes il faut avant tout venir compléter et actualiser le jeu de données pour affiner au mieux l'analyse et les tendances. 
-- Economiquement: Le projet prend son intérêt dans l'estimation des ventes en quantité. Grâce a ce dernier,  en cas de réussite, nous pourrons expliquer et prévoir les ventes et spécifier a quoi le succès est dû (genre, notes, divers).  Pour les équipes en charge de la prise de décision du lancement d'un jeu vidéo, cette prédiction aura énormément de valeur, car elle permettra de savoir si il est pertinent ou pas de lancer sa production en fonction des objectifs de rentabilité fixés.")
+    st.markdown("""Ce projet a permis de tirer parti des connaissances apprises lors du cursus de formation Datascientest en gérant un projet complet pour répondre à une problématique donnée.
+* Techniquement :  Les données étant incomplètes il faut avant tout venir compléter et actualiser le jeu de données pour affiner au mieux l'analyse et les tendances. 
+* Economiquement: Le projet prend son intérêt dans l'estimation des ventes en quantité. Grâce a ce dernier,  en cas de réussite, nous pourrons expliquer et prévoir les ventes et spécifier a quoi le succès est dû (genre, notes, divers).  Pour les équipes en charge de la prise de décision du lancement d'un jeu vidéo, cette prédiction aura énormément de valeur, car elle permettra de savoir si il est pertinent ou pas de lancer sa production en fonction des objectifs de rentabilité fixés.""")
 
 
     

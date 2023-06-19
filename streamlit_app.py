@@ -73,18 +73,6 @@ DICT_GENRE = {'Role-Playing': 'dodgerblue',
         'Autre': 'aquamarine'}
 flierprops = dict(marker="X", markerfacecolor='darkviolet', markersize=12,
                   linestyle='none')
-embed_component_CS= {'linkedin':"""<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
-    <div class="badge-base LI-profile-badge" data-locale="fr_FR" data-size="medium" data-theme="dark" data-type="VERTICAL" data-vanity="cindysotton" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://fr.linkedin.com/in/cindysotton?trk=profile-badge"></a></div>"""}
-
-embed_component_CA= {'linkedin':"""<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
-    <div class=“badge-base LI-profile-badge” data-locale=“fr_FR” data-size=“medium” data-theme=“dark” data-type=“VERTICAL” data-vanity=“celine-anselmo” data-version=“v1”><a class=“badge-base__link LI-simple-link” href=“https://fr.linkedin.com/in/celine-anselmo?trk=profile-badge”>Céline ANSELMO</a></div>"""}
-
-embed_component_DR= {'linkedin':"""<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
-    <div class=“badge-base LI-profile-badge” data-locale=“fr_FR” data-size=“medium” data-theme=“dark” data-type=“VERTICAL” data-vanity=“dorian-rivet” data-version=“v1”><a class=“badge-base__link LI-simple-link” href=“https://fr.linkedin.com/in/dorian-rivet?trk=profile-badge”>Dorian Rivet</a></div>"""}
-
-embed_component_KM= {'linkedin':"""<script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
-    <div class=“badge-base LI-profile-badge” data-locale=“fr_FR” data-size=“medium” data-theme=“dark” data-type=“VERTICAL” data-vanity=“karine-minatchy-6644a5136” data-version=“v1”><a class=“badge-base__link LI-simple-link” href=“https://www.linkedin.com/in/karine-minatchy-6644a5136?trk=profile-badge”>Karine Minatchy</a></div>"""}
-
 
 # 2. horizontal menu
 selected = option_menu(None, ['Projet','Méthodologie','Analyse','Modélisation','Conclusion'],
@@ -110,14 +98,18 @@ if selected == "Projet":
     col1, col2 = st.columns(2)
     with col1:
         st.image("linkedin/Celine_Anselmo.png")
+        st.markdown("[![LinkedIn](https://www.linkedin.com/in/celine-anselmo/)](linkedin/Celine_Anselmo.png)")
     with col2:
         st.image("linkedin/Cindy_Sotton.png")
+        st.markdown("[![LinkedIn](https://www.linkedin.com/in/cindysotton/)](linkedin/Cindy_Sotton.png)")
 
     col1, col2 = st.columns(2)
     with col1:
         st.image("linkedin/Karine_Minatchy.png")
+        st.markdown("[![LinkedIn](https://www.linkedin.com/in/karine-minatchy/)](linkedin/Karine_Minatchy.png)")
     with col2:
         st.image("linkedin/Dorian_Rivet.png")
+        st.markdown("[![LinkedIn](https://www.linkedin.com/in/dorian-rivet/)](linkedin/Dorian_Rivet.png)")
         
 
 

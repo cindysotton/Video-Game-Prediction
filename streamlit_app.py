@@ -389,24 +389,24 @@ if selected == "Analyse":
 
         col1,col2 = st.columns(2)
         with col1: 
-            st.subheader("Top 10 modalités")
-            sns.set(style="ticks", context="talk")
-            plt.style.use("dark_background")
-            fig = plt.figure(figsize=(20, 10))
-            sns.barplot(y=df["Platform"].value_counts().head(10).index,
-                    x=df["Platform"].value_counts().head(10).values, palette=DICT_PLAT);
-            st.pyplot(fig,theme="streamlit", use_container_width=True)
+            plt.figure(figsize=(30, 5))
 
-            st.subheader("Nombre de ventes median")
-            sns.set(style="ticks", context="talk")
-            plt.style.use("dark_background")
-            fig = plt.figure(figsize=(20, 10))
+            plt.subplot(1, 2, 1)
             df_publisher = df[['Platform', 'Global_Sales']]
-            df_publisher = df_publisher.groupby('Platform')['Global_Sales'].median().sort_values(ascending=False).head(10)
+            df_publisher = df_publisher.groupby('Platform')['Global_Sales'].median().sort_values(ascending=False)
             df_publisher = pd.DataFrame(df_publisher).reset_index()
-            df_publisher = df_publisher.head(10)
-            sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher);
-            st.pyplot(fig,theme="streamlit", use_container_width=True)
+            sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher)
+            plt.xticks(rotation=90);
+            plt.title("Nombre de ventes median par plateforme")
+            
+            plt.subplot(1, 2, 2)
+            df_publisher = df[['Platform', 'Global_Sales']]
+            df_publisher = df_publisher.groupby('Platform')['Global_Sales'].mean().sort_values(ascending=False)
+            df_publisher = pd.DataFrame(df_publisher).reset_index()
+            sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher)
+            plt.xticks(rotation=90);
+            plt.title("Nombre de ventes moyen par plateforme")
+            
         
 
 # Modelisation

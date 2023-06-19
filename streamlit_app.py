@@ -384,29 +384,6 @@ if selected == "Analyse":
                      names=df['Platform'],
                      color_discrete_sequence=color)
         fig.show()
-
-        plt.figure(figsize=(30, 5))
-
-        plt.subplot(1, 3, 1)
-        sns.barplot(y=df["Platform"].value_counts().head(10).index,
-                   x=df["Platform"].value_counts().head(10).values, palette=DICT_PLAT);
-        plt.title("Plateforme ayant le plus de références vendues")
-        
-        plt.subplot(1, 3, 2)
-        df_publisher = df[['Platform', 'Global_Sales']]
-        df_publisher = df_publisher.groupby('Platform')['Global_Sales'].sum().sort_values(ascending=False).head(10)
-        df_publisher = pd.DataFrame(df_publisher).reset_index()
-        sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher)
-        plt.xticks(rotation=90);
-        plt.title("Platforme ayant le plus de ventes")
-        
-        plt.subplot(1, 3, 3)
-        df_publisher = df[['Platform', 'Global_Sales']]
-        df_publisher = df_publisher.groupby('Platform')['Global_Sales'].median().sort_values(ascending=False).head(10)
-        df_publisher = pd.DataFrame(df_publisher).reset_index()
-        sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher)
-        plt.xticks(rotation=90);
-        plt.title("Nombre de ventes median par plateforme")
                         
         
 

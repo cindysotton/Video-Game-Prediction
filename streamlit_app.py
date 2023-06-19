@@ -379,7 +379,7 @@ if selected == "Analyse":
         col1,col2 = st.columns(2)
         with col1: 
            
-            fig = px.bar(df, x="Global_Sales", y="Platform", color="Platform",
+            fig = px.bar(df, x="Global_Sales", y="Platform", color=DICT_PLAT,
                          color_discrete_map=DICT_PLAT, orientation="h",
                          facet_col="",
                          labels={"Global_Sales": "Global Sales", "Platform": "Platform"},
@@ -389,7 +389,7 @@ if selected == "Analyse":
             fig.update_layout(xaxis_title="Global Sales", yaxis_title="Platform", showlegend=False)
             fig.update_traces(marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
             
-            fig2 = px.bar(df, x="Global_Sales", y="Platform", color="Platform",
+            fig2 = px.bar(df, x="Global_Sales", y="Platform", color=DICT_PLAT,
                           color_discrete_map=DICT_PLAT, orientation="h",
                           facet_col="",
                           labels={"Global_Sales": "Global Sales", "Platform": "Platform"},

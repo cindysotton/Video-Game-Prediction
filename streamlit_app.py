@@ -101,7 +101,7 @@ selected = option_menu(None, ['Projet','Méthodologie','Analyse','Modélisation'
 
 # Présentation
 if selected == "Projet":
-    image = Image.open('manette.jpeg')
+    image = Image.open('media/manette.jpeg')
     st.image(image)
     st.title("La Data Science sera t elle le \"cheat code\" de la vente d'un jeu vidéo ?")
     st.markdown("Estimer les ventes d'un produit avant son lancement peut être une véritable force pour la rentabilité d'une entreprise. Dans le cadre de ce projet nous allons essayer de déployer un modèle qui permettra de prédire les ventes d'un jeu.")
@@ -126,7 +126,7 @@ if selected == "Projet":
 
 # Méthodologie
 if selected == "Méthodologie":
-    image = Image.open('manette.jpeg')
+    image = Image.open('media/manette.jpeg')
     st.image(image)
     tab1, tab2, statistiques = st.tabs(["Extraction des données", "Data processing",'Statistiques'])
     with tab1:
@@ -164,7 +164,7 @@ if selected == "Méthodologie":
         st.markdown("L'analyse de la variance ANOVA a été utilisée pour mettre en relation nos différentes variables explicatives: Platform, Genre, Studio, Publisher et notre variable cible Global_Sales.")
 
         #image stats1
-        image_path = "stats1.png"
+        image_path = "media/stats1.png"
         try:
             image = Image.open(image_path)
             st.image(image, caption="Anova")
@@ -180,7 +180,7 @@ if selected == "Méthodologie":
         st.markdown("Nous avons utilisé la méthode statistique V de Cramer pour mesurer le niveau de corrélation entre nos variables explicatives de type qualitatives")
         
         #image stats2
-        image_path = "stats2.png"
+        image_path = "media/stats2.png"
         try:
             image = Image.open(image_path)
             st.image(image, caption="V de Cramer")

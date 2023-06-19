@@ -1075,7 +1075,7 @@ if selected == "Modélisation":
         
         #Modélisation Etapes
         st.header('Modélisation:')
-        st.markdown("<p class="purple">Etape 1: Analyse de l'importance des variables, Itération 2</p>", unsafe_allow_html=True)
+        st.markdown('<p class="purple">Etape 1: Analyse de l importance des variables, Itération 2</p>', unsafe_allow_html=True)
         
         st.header('Résultats:')
         # Graph importance 

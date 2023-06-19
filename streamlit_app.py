@@ -215,7 +215,24 @@ Les résultats n'étant pas à la hauteur autant pour Metacritic que pour jeuxvi
         </style>
         """, unsafe_allow_html=True)
         st.markdown('<p class="purple">1 - Nettoyage de données:  </p>', unsafe_allow_html=True)
-        st.markdown('<p class="purple">2 - Transformation des données:</p>'  "\n \n - Supprimer les outliers des variables explicatives \n \n - Encodage de la variable plateforme \n \n    - Application d'un get dummies sur la variable plateforme \n    - Reverse du get dummies pour obtenir un résultat tel que Multi-Plateforme ou le nom de la plateforme \n - Pivot du dataset pour obtention d'une ligne par jeu", unsafe_allow_html=True)
+        st.markdown("""
+* formater le type de la variable date
+* supprimer les données après 2022
+* supprimer les données NaN pour Global_Sales (notre variable cible)
+* supprimer les données NaN pour Critic_score (la variable qui a été l'objet du scrapping)
+* remplacer les NaN par 0 pour les sales des régions 
+* renommer les colonnes pour la compréhension
+* formater des colonnes en str lorsque nécessaire""")
+
+        st.markdown('<p class="purple">2 - Transformation des données: </p>', unsafe_allow_html=True)
+        st.markdown("""
+* remplacer dans un premier temps les NaN par 0 afin d’éviter la création d’array lors de notre transformation du dataset en table pivot
+* supprimer les variables extrêmes pour l'année, le genre et la plateforme
+* encoder la variable plateforme afin qu'elle soit en colonne (ex: colonne wii[0,1]) et non en ligne. Une fois le pivot réalisé, nous reconstituons la variable en précisant "Multi_plateforme" si le jeux est sur plusieurs plateformes.
+* modifier le dataset en table pivot afin d’avoir une ligne par jeu
+* organiser l'ordre des colonnes pour les avoir dans un ordre plus pertinent 
+
+Le dataset obtenu est celui utilisé pour la visualisation et les statistiques""")
     
     with statistiques:
         #Analyses statistiques

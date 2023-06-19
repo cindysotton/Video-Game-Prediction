@@ -359,44 +359,40 @@ if selected == "Analyse":
 
     if genre == 'Plateformes':
         st.header('Zoom sur les plateformes')
-        # SET UP DU SEGMENT DU DF
-        # Creation d'une série pour analyser les plateforme
+        # Creation d'une série pour analyser les plateformes
         df1 = df[df.columns[11:]]
-        # Remplacer les petites valeurs par autre
-        df1['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
-               'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
-        # Remplacer les petites valeurs par autre aussi dans df
-        df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
-               'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
-        df1 = pd.Series(df1["Platform"])
-        df1.str.split(',', expand=True).stack().reset_index(drop=True)
-
+        # Remplacer les petites valeurs par 'Autre'
+        df1['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne', 'XB', 'DC'], 'Autre')
+        # Remplacer les petites valeurs par 'Autre' aussi dans df
+        df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne', 'XB', 'DC'], 'Autre')
+        df1 = df1['Platform'].str.split(',', expand=True).stack().reset_index(drop=True)
+        
         # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
         DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
-         'PSP': 'tomato',
-         'GBA': 'mediumaquamarine',
-         'PC': 'mediumpurple',
-         'DS': 'sandybrown',
-         'PS3': 'lightskyblue',
-         'GC': 'hotpink',
-         'PS': 'palegreen',
-         'Wii': 'violet',
-         'PS2': 'gold',
-         'Autre': 'lavender',
-         'X360': 'salmon',
-         '3DS': 'aquamarine',
-         'NS': 'plum',
-         'N64': 'peachpuff'}
+                     'PSP': 'tomato',
+                     'GBA': 'mediumaquamarine',
+                     'PC': 'mediumpurple',
+                     'DS': 'sandybrown',
+                     'PS3': 'lightskyblue',
+                     'GC': 'hotpink',
+                     'PS': 'palegreen',
+                     'Wii': 'violet',
+                     'PS2': 'gold',
+                     'Autre': 'lavender',
+                     'X360': 'salmon',
+                     '3DS': 'aquamarine',
+                     'NS': 'plum',
+                     'N64': 'peachpuff'}
 
-        color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
-                                        'lightskyblue','hotpink','palegreen','violet','gold','lavender',
-                                        'salmon','aquamarine','plum','peachpuff']
-        # PIE CHART DE LA REPARTITON
+        color = [DICT_PLAT.get(platform, 'gray') for platform in df1.value_counts().index]
+        
+        # PIE CHART DE LA REPARTITION
         fig = px.pie(df1,
                      values=df1.value_counts(),
                      names=df1.value_counts().index,
-                     color_discrete_sequence = color)
-        fig.show()
+                     color_discrete_sequence=color)
+        
+        st.plotly_chart(fig, use_container_width=True)
         
         
 

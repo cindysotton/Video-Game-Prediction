@@ -198,7 +198,7 @@ Les résultats n'étant pas à la hauteur autant pour Metacritic que pour jeuxvi
         }
         </style>
         """, unsafe_allow_html=True)
-        st.markdown('<p class="purple">1 - Nettoyage de données:  </p>'"\n  \n - Formater le type des varibles si nécessaire (str,int,date)  \n  \n- Remplacement et ou suppression des Nans      \n  \n   \n", unsafe_allow_html=True)
+        st.markdown('<p class="purple">1 - Nettoyage de données:  </p>', unsafe_allow_html=True)
         st.markdown('<p class="purple">2 - Transformation des données:</p>'  "\n \n - Supprimer les outliers des variables explicatives \n \n - Encodage de la variable plateforme \n \n    - Application d'un get dummies sur la variable plateforme \n    - Reverse du get dummies pour obtenir un résultat tel que Multi-Plateforme ou le nom de la plateforme \n - Pivot du dataset pour obtention d'une ligne par jeu", unsafe_allow_html=True)
     
     with statistiques:

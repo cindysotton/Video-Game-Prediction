@@ -95,21 +95,31 @@ if selected == "Projet":
     st.markdown("Estimer les ventes d'un produit avant son lancement peut être une véritable force pour la rentabilité d'une entreprise. Dans le cadre de ce projet nous allons essayer de déployer un modèle qui permettra de prédire les ventes d'un jeu.")
     
     st.subheader("Contacter l'équipe")
-    col1, col2 = st.columns(2)
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
-        linkedin_url = "https://www.linkedin.com/in/celine-anselmo/"
-        image_path = "./app/static/Celine_Anselmo.png"
+        linkedin_celine = "https://www.linkedin.com/in/celine-anselmo/"
+        image_celine = "./app/static/Celine_Anselmo.png"
         
-        st.markdown(f'<a href="{linkedin_url}" target="_blank"><img src="{image_path}" width="200"></a>', unsafe_allow_html=True)
+        st.markdown(f'<a href="{linkedin_celine}" target="_blank"><img src="{image_celine}" width="200"></a>', unsafe_allow_html=True)
 
     with col2:
-        st.markdown("[![Click me](./app/static/Cindy_Sotton.png)](https://www.linkedin.com/in/cindysotton/)")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("[![Click me](./app/static/Karine_Minatchy.png)](https://www.linkedin.com/in/karine-minatchy/)")
-    with col2:
-        st.markdown("[![Click me](./app/static/Dorian_Rivet.png)](https://www.linkedin.com/in/dorian-rivet/)")
+        linkedin_cindy = "https://www.linkedin.com/in/cindysotton/"
+        image_cindy = "./app/static/Cindy_Sotton.png"
+        
+        st.markdown(f'<a href="{linkedin_cindy}" target="_blank"><img src="{image_cindy}" width="200"></a>', unsafe_allow_html=True)
 
+    
+    with col3:
+        linkedin_karine = "https://www.linkedin.com/in/karine-minatchy/"
+        image_karine = "./app/static/Karine_Minatchy.png"
+        
+        st.markdown(f'<a href="{linkedin_karine}" target="_blank"><img src="{image_karine}" width="200"></a>', unsafe_allow_html=True)
+
+    with col4:
+        linkedin_dorian = "https://www.linkedin.com/in/dorian-rivet/"
+        image_dorian = "./app/static/Dorian_Rivet.png"
+        
+        st.markdown(f'<a href="{linkedin_dorian}" target="_blank"><img src="{image_dorian}" width="200"></a>', unsafe_allow_html=True)
 
 
 # Méthodologie

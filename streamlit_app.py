@@ -181,7 +181,7 @@ Le dataset Vgchart est le jeu initial fourni dans le cadre du projet disponible 
 * Plateforme
 * Publisher
 * Ventes par région""")
-        st.markdown('<p class="purple">v</p>', unsafe_allow_html=True)
+        st.markdown('<p class="purple">Complétion des données - Utilisation du scrapping: </p>', unsafe_allow_html=True)
         st.markdown("""
 Nous avons scrappé le site Vgchart pour récupérer : 
 * des données plus récentes

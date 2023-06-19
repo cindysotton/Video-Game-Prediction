@@ -1106,7 +1106,7 @@ if selected == "Modélisation":
         feat_importances = feat_importances.sort_values(ascending=False).head(10)
 
         # Afficher le graphique en barres
-        fig, ax = plt.subplots(figsize=(4, 3))
+        fig, ax = plt.subplots(figsize=(12, 6))
         ax.bar(feat_importances.index, feat_importances.values, color="darkviolet")
         ax.set_title("Importance de chaque variable")
         ax.set_ylabel("Importance")

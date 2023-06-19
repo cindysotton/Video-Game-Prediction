@@ -1052,25 +1052,32 @@ if selected == "Modélisation":
         st.header('Dataset Modélisation:')
         st.subheader('Variable Cible')
         st.markdown('-  Global_Sales')
-         
-        
         st.subheader('Variables Explicatives')
-            
-
         st.markdown("-  L'année de sortie (Year)  \n-  Le genre (Genre)  \n-  Le studio l’ayant développé (Studio)  \n-  L’éditeur l’ayant publié (Publisher)  \n-  La plateforme sur laquelle le jeu est sortie (Platform)  \n-  Les notes utilisateurs (Critic_Score)")  
         st.markdown("Nous avons choisi d'appliquer des modèles de régression pour prédire notre variable en quantité (régression linéaire, arbre de décision, forêt aléatoire). ")
         
     with tab2:
+        # texte violet
+        st.markdown("""
+        <style>
+        .purple {
+            color : darkviolet;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        
         #Préprocessing Etapes
-        st.markdown('### Pre-processing:')
-        st.markdown('Etape 1: Clustering des variables studio et publisher')
+        st.header('Pre-processing:')
+        st.markdown('<p class="purple">Etape 1: Clustering des variables studio et publisher</p>', unsafe_allow_html=True)
         st.markdown('-  Suite au nombre important de modalités dans ces trois colonnes (+700 pour studio), nous avons simplifié les variables en utilisant la méthode du clustering. Studio, Publisher: 1 à 4 suivant leur montant de Global_Sales')
-        st.markdown('Etape 2: Suppression des variables non pertinentes pour la modélisation (name, region sales, description)  \n Etape 3: Encoding des variables catégorielles')
+        st.markdown('<p class="purple">Etape 2: Suppression des variables non pertinentes pour la modélisation (name, region sales, description)</p>', unsafe_allow_html=True)
+        st.markdown('<p class="purple">Etape 3: Encoding des variables catégorielles</p>', unsafe_allow_html=True)
+        
         #Modélisation Etapes
-        st.markdown('### Modélisation:')
-        #st.markdown('Etape 1: Clustering des variables studio et publisher')
-        st.markdown("Etape 2: Analyse de l'importance des variables, Itération 2  \n")
-        st.markdown('### Résultats:')
+        st.header('Modélisation:')
+        st.markdown("<p class="purple">Etape 1: Analyse de l'importance des variables, Itération 2</p>", unsafe_allow_html=True)
+        
+        st.header('Résultats:')
         # Graph importance 
         v1 = ([0.33011073, 0.21852045, 0.00776532, 0.062745  , 0.0032006 ,
         0.00506196, 0.00514901, 0.01860793, 0.00530342, 0.00532782,
@@ -1099,7 +1106,7 @@ if selected == "Modélisation":
         feat_importances = feat_importances.sort_values(ascending=False).head(10)
 
         # Afficher le graphique en barres
-        fig, ax = plt.subplots(figsize=(8, 6))
+        fig, ax = plt.subplots(figsize=(4, 3))
         ax.bar(feat_importances.index, feat_importances.values, color="darkviolet")
         ax.set_title("Importance de chaque variable")
         ax.set_ylabel("Importance")

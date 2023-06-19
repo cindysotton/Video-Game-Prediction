@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import seaborn as sns
 
-pip install bokeh==2.4.3
 from bokeh.plotting import figure, output_notebook, show, curdoc, save
 from bokeh.models import BoxAnnotation, ColumnDataSource, Range1d
 from bokeh.models.tools import HoverTool

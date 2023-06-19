@@ -378,23 +378,29 @@ if selected == "Analyse":
 
         col1,col2 = st.columns(2)
         with col1: 
-            plt.figure(figsize=(30, 5))
-
-            plt.subplot(1, 2, 1)
-            df_publisher = df[['Platform', 'Global_Sales']]
-            df_publisher = df_publisher.groupby('Platform')['Global_Sales'].median().sort_values(ascending=False)
-            df_publisher = pd.DataFrame(df_publisher).reset_index()
-            sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher)
-            plt.xticks(rotation=90);
-            plt.title("Nombre de ventes median par plateforme")
+           
+            fig = px.bar(df, x="Global_Sales", y="Platform", color="Platform",
+                         color_discrete_map=DICT_PLAT, orientation="h",
+                         facet_col="",
+                         labels={"Global_Sales": "Global Sales", "Platform": "Platform"},
+                         title="Nombre de ventes median par plateforme",
+                         height=400)
             
-            plt.subplot(1, 2, 2)
-            df_publisher = df[['Platform', 'Global_Sales']]
-            df_publisher = df_publisher.groupby('Platform')['Global_Sales'].mean().sort_values(ascending=False)
-            df_publisher = pd.DataFrame(df_publisher).reset_index()
-            sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher)
-            plt.xticks(rotation=90);
-            plt.title("Nombre de ventes moyen par plateforme")
+            fig.update_layout(xaxis_title="Global Sales", yaxis_title="Platform", showlegend=False)
+            fig.update_traces(marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
+            
+            fig2 = px.bar(df, x="Global_Sales", y="Platform", color="Platform",
+                          color_discrete_map=DICT_PLAT, orientation="h",
+                          facet_col="",
+                          labels={"Global_Sales": "Global Sales", "Platform": "Platform"},
+                          title="Nombre de ventes moyen par plateforme",
+                          height=400)
+            
+            fig2.update_layout(xaxis_title="Global Sales", yaxis_title="Platform", showlegend=False)
+            fig2.update_traces(marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
+            
+            fig.show()
+            fig2.show()
             
         
 

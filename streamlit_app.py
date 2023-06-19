@@ -290,17 +290,17 @@ if selected == "Analyse":
     "Menu:",
     ('Le marché','Plateformes', 'Publishers', 'Studios','Genres','Notes'))
     st.divider()
+    
     if genre == "Le marché":
         st.title('VgChartz : Analyse des données')
         st.markdown("Estimer les ventes d'un produit avant de le lancer est une étape essentielle dans la vie d'un produit. C'est ce que nous allons essayer de faire dans le cadre de ce projet.  \n Notre étude nous portera dans l'univers du jeu vidéo.")
 
-
+        # EVOLUTION DES VENTES
         data_NA = df.groupby(by=['Year'])['NA_Sales'].sum().reset_index()
         data_EU = df.groupby(by=['Year'])['EU_Sales'].sum().reset_index()
         data_JP = df.groupby(by=['Year'])['JP_Sales'].sum().reset_index()
         data_Others = df.groupby(by=['Year'])['Other_Sales'].sum().reset_index()
         data_globales = df.groupby(by=['Year']).sum().reset_index()
-        
         fig = px.line(data_frame=data_globales, x='Year', y='Global_Sales', labels={'Year': 'Year', 'Global_Sales': 'Sales'})
         fig.add_scatter(x=data_NA['Year'], y=data_NA['NA_Sales'], mode='lines', name='NA_Sales', line_color='darkviolet')
         fig.add_scatter(x=data_EU['Year'], y=data_EU['EU_Sales'], mode='lines', name='EU_Sales', line_color='royalblue')
@@ -314,13 +314,10 @@ if selected == "Analyse":
             width=800,
             height=600,
             yaxis_range=[0, 600],
-            title='Sales by Year'
         )
-        
         st.plotly_chart(fig, use_container_width=True)
 
-
-        
+        # PIE DE LA REPARTITION
         st.markdown(
             """Le marché du jeu vidéo a commencé sa croissance à partir de la seconde moitié des années 90 dynamisé par le lancement de nouvelles plateformes: \n\n -   Sortie de la PlayStation en 1995 \n\n - Nouvel élan dans les années 2000 avec la sortie de la Nintendo 64. \n\n - Après une forte croissance (2005 à 2010), le marché revient à sa tendance initiale. """)
         
@@ -360,220 +357,47 @@ if selected == "Analyse":
         st.markdown("Certains jeux ont connu un succès exceptionnel, c'est notamment le cas pour Wii Sport sorti en 2006 chez Nintendo.")
         st.markdown("Ce graphique nous permet d'identifier les jeux qui se sont démarqués en terme de ventes et apprécier les variables en lien. On peut identifier des \"sagas\" qui ont bien marché (Mario, Pokemon, Grand Theft Auto).")
 
-    if genre == 'Notes':
-        
-        st.subheader("Répartition des notes")
-        df['cat_Notes'] = pd.cut(df['Critic_Score'], bins = [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10], labels=['0 à 1','1 à 2','2 à 3','3 à 4','4 à 5','5 à 6','6 à 7', '7 à 8', '8 à 9', '9 à 10'])
-        # Remplacer les modalités peu nombreuse par Autre
-        df['cat_Notes'] = df['cat_Notes'].replace(['2 à 3', '1 à 2', '0 à 1'],['Autre','Autre','Autre'])
-        # Créer une serie pour analyser le genre
-        df3 = df['cat_Notes']
-        df3.str.split(',', expand=True).stack().reset_index(drop=True)
-        color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
-                                                'lightskyblue','hotpink','palegreen','violet','gold','lavender',
-                                                'salmon','aquamarine','plum','peachpuff']
-        fig = px.pie(df3,
-                    values=df3.value_counts(),
-                    names=df3.value_counts().index,
-                    color_discrete_sequence = color)
-        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-        st.markdown("Nous avons représenté ici la répartition des notes de notre liste de jeux.Il sera intéressant d'observer par la suite si l'on peut s'appuyer sur les notes pour valider nos analyses sur les autres variables. On observe près de 75% des jeux qui ont une note comprise entre 5 et 8.")
-        
-    
-        st.markdown("## Zoom sur les Notes")
-        df['cat_Notes'] = pd.cut(df['Critic_Score'], bins = [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10], labels=['0 à 1','1 à 2','2 à 3','3 à 4','4 à 5','5 à 6','6 à 7', '7 à 8', '8 à 9', '9 à 10'])
-        # Remplacer les modalités peu nombreuse par Autre
-        df['cat_Notes'] = df['cat_Notes'].replace(['2 à 3', '1 à 2', '0 à 1'],['Autre','Autre','Autre'])
-        # Créer une serie pour analyser le genre
-        df3 = df['cat_Notes']
-        df3.str.split(',', expand=True).stack().reset_index(drop=True)
-        DICT_NOTE = {'7 à 8': 'dodgerblue',
-                '8 à 9': 'tomato',
-                '6 à 7': 'mediumaquamarine',
-                '5 à 6': 'mediumpurple',
-                '4 à 5': 'sandybrown',
-                '9 à 10': 'lightskyblue',
-                '3 à 4': 'hotpink',
-                'Autre': 'palegreen'}
-        col1,col2 = st.columns(2)
-        with col1:
-            st.markdown("### Réparition des notes par notes")
-            sns.set(style="ticks", context="talk")
-            plt.style.use("dark_background")
-            fig = plt.figure(figsize=(20, 10))
-            sns.barplot(y=df["cat_Notes"].value_counts().head(10).index,
-                    x=df["cat_Notes"].value_counts().head(10).values,
-                        palette = DICT_NOTE)
-            st.pyplot(fig,theme="streamlit", use_container_width=True)
-        with col2:
-            st.markdown("### Répartition des notes par ventes")
-            sns.set(style="ticks", context="talk")
-            plt.style.use("dark_background")
-            fig = plt.figure(figsize=(20, 10))
-            df_publisher = df[['cat_Notes', 'Global_Sales']]
-            df_publisher = df_publisher.groupby('cat_Notes')['Global_Sales'].sum().sort_values(ascending=False).head(10)
-            df_publisher = pd.DataFrame(df_publisher).reset_index()
-            sns.barplot(y="cat_Notes", x="Global_Sales",data=df_publisher, palette = DICT_NOTE);
-            st.pyplot(fig,theme="streamlit", use_container_width=True)
-        st.markdown("On peut donc considérer que les jeux sont en règle générale qualitatifs. De manière logique, les jeux les mieux notés sont ceux qui se vendent le plus.")
-        st.subheader("Evolution des notes par genres et par années")
-        fig, ax = plt.subplots(5, 1, sharex=True,sharey=True,
-                            figsize=(10, 5))
-        sns.set(style="ticks", context="talk")
-        plt.style.use("dark_background")
-        liste=['Misc','Action','Shooter','Adventure','Sports']
-        color=['violet','tomato','mediumaquamarine','hotpink','mediumpurple']
-        for index, i in enumerate(liste):
-            dfsource =pd.DataFrame(df[df.Genre ==i].groupby(['Genre', 'Year']).mean()).reset_index()
-            source = ColumnDataSource(dfsource)
-            sns.lineplot(x = "Year",
-                y = "Critic_Score",
-                data=dfsource,
-                color=color[index],
-                label=i,
-                        ax=ax[index])
-            ax[index].set_ylabel('')
-        st.pyplot(fig, theme="streamlit", use_container_width=True) 
-        st.markdown("Nous observons sur le graphique ci-contre l'évolution de la note par année sur les genres que nous avions commenté dans la partie Genre. Les genres Misc, Action, Sports semblent afficher une continuité. Nous observons pour Shooter et Adventures des pic de décroissances qu'il pourra être intéressant d'analyser plus en détails. Il y a-t-il un jeu qui aurait été mal reçu du public sur ces pics.")
     if genre == 'Plateformes':
-        st.markdown('### Zoom sur les plateformes')
+        st.header('Zoom sur les plateformes')
+        # SET UP DU SEGMENT DU DF
+        # Creation d'une série pour analyser les plateforme
         df1 = df[df.columns[11:]]
         # Remplacer les petites valeurs par autre
         df1['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
-            'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
+               'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
         # Remplacer les petites valeurs par autre aussi dans df
         df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
-            'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
+               'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
         df1 = pd.Series(df1["Platform"])
         df1.str.split(',', expand=True).stack().reset_index(drop=True)
+
+        # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
         DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
-                    'PSP': 'tomato',
-                    'GBA': 'mediumaquamarine',
-                    'PC': 'mediumpurple',
-                    'DS': 'sandybrown',
-                    'PS3': 'lightskyblue',
-                    'GC': 'hotpink',
-                    'PS': 'palegreen',
-                    'Wii': 'violet',
-                    'PS2': 'gold',
-                    'Autre': 'lavender',
-                    'X360': 'salmon',
-                    '3DS': 'aquamarine',
-                    'NS': 'plum',
-                    'N64': 'peachpuff'}
+         'PSP': 'tomato',
+         'GBA': 'mediumaquamarine',
+         'PC': 'mediumpurple',
+         'DS': 'sandybrown',
+         'PS3': 'lightskyblue',
+         'GC': 'hotpink',
+         'PS': 'palegreen',
+         'Wii': 'violet',
+         'PS2': 'gold',
+         'Autre': 'lavender',
+         'X360': 'salmon',
+         '3DS': 'aquamarine',
+         'NS': 'plum',
+         'N64': 'peachpuff'}
+
         color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
                                         'lightskyblue','hotpink','palegreen','violet','gold','lavender',
                                         'salmon','aquamarine','plum','peachpuff']
+        # PIE CHART DE LA REPARTITON
         fig = px.pie(df1,
-            values=df1.value_counts(),
-            names=df1.value_counts().index,
-            color_discrete_sequence = color)
-        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-        st.markdown("Nous constatons que les parts de marché se répartissent de manière équilibré entre les plateformes.A noter que certaines plateformes tendent à disparaitre car remplacer par leur upgrade (PS2 qui devient la PS3).")
-
-        col1,col2 = st.columns(2)
-        with col1: 
-            st.subheader("Top 10 modalités")
-            sns.set(style="ticks", context="talk")
-            plt.style.use("dark_background")
-            fig = plt.figure(figsize=(20, 10))
-            sns.barplot(y=df["Platform"].value_counts().head(10).index,
-                    x=df["Platform"].value_counts().head(10).values, palette=DICT_PLAT);
-            st.pyplot(fig,theme="streamlit", use_container_width=True)
-
-            st.subheader("Nombre de ventes median")
-            sns.set(style="ticks", context="talk")
-            plt.style.use("dark_background")
-            fig = plt.figure(figsize=(20, 10))
-            df_publisher = df[['Platform', 'Global_Sales']]
-            df_publisher = df_publisher.groupby('Platform')['Global_Sales'].median().sort_values(ascending=False).head(10)
-            df_publisher = pd.DataFrame(df_publisher).reset_index()
-            df_publisher = df_publisher.head(10)
-            sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher);
-            st.pyplot(fig,theme="streamlit", use_container_width=True)
-
-            
-        st.markdown("Les jeux vendus sur plusieurs plateformes ont le meilleur ratio de vente par jeu. PSP et GBA sont les deux premiers en terme de quantités de jeux mais perdent leur place lorsque l'on regarde le nombre de vente total et médian. A part pour la PS3, l'ensemble des autres plateforme à le même nombre de vente médian. Néanmoins, à restituer avec le nombre de plateformes en exploitation à ce moment.  \n Certaines plateformes vont avoir des jeux qui auront des ventes disproportionnées par rapport au reste de leur catalogue d'où un écart important entre la moyenne et la médiane des ventes (ex : Wii). Le graphique suivant nous permettra de mieux observer  ")
-        with col2: 
-            st.subheader("Top 10 ventes")
-            sns.set(style="ticks", context="talk")
-            plt.style.use("dark_background")
-            fig = plt.figure(figsize=(20, 10))
-            df_publisher = df[['Platform', 'Global_Sales']]
-            df_publisher = df_publisher.groupby('Platform')['Global_Sales'].sum().sort_values(ascending=False).head(10)
-            df_publisher = pd.DataFrame(df_publisher).reset_index()
-            sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher);
-            st.pyplot(fig,theme="streamlit", use_container_width=True)
-
-            st.subheader("Nombre de ventes moyen")
-            fig = plt.figure(figsize=(20, 10))
-            df_publisher = df[['Platform', 'Global_Sales']]
-            df_publisher = df_publisher.groupby('Platform')['Global_Sales'].mean().sort_values(ascending=False)
-            df_publisher = pd.DataFrame(df_publisher).reset_index().head(10)
-            sns.barplot(y="Platform", x="Global_Sales",palette=DICT_PLAT,data=df_publisher);
-            st.pyplot(fig,theme="streamlit", use_container_width=True)
-        st.subheader("Analyse des valeurs extrêmes pour les plateformes")
-        sns.set(style="ticks", context="talk")
-        plt.style.use("dark_background")
-        fig = plt.figure(figsize=(20, 10))
+                     values=df1.value_counts(),
+                     names=df1.value_counts().index,
+                     color_discrete_sequence = color)
+        fig.show()
         
-        df1 = df[df.columns[11:]]
-        # Remplacer les petites valeurs par autre
-        df1['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
-        'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
-        # Remplacer les petites valeurs par autre aussi dans df
-        df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
-        'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
-        df1 = pd.Series(df1["Platform"])
-        df1.str.split(',', expand=True).stack().reset_index(drop=True)
-            # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
-        DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
-        'PSP': 'tomato',
-        'GBA': 'mediumaquamarine',
-        'PC': 'mediumpurple',
-        'DS': 'sandybrown',
-        'PS3': 'lightskyblue',
-        'GC': 'hotpink',
-        'PS': 'palegreen',
-        'Wii': 'violet',
-        'PS2': 'gold',
-        'Autre': 'lavender',
-        'X360': 'salmon',
-        '3DS': 'aquamarine',
-        'NS': 'plum',
-        'N64': 'peachpuff'}
-        sns.set_theme(style = 'darkgrid')
-        plt.style.use('dark_background')
-        bx=sns.boxplot(x='Platform',
-                    y='Global_Sales',
-                    palette = DICT_PLAT,
-                    flierprops=flierprops,
-                    data=df[df.Platform.isin(list(df.Platform.value_counts().index))])
-        bx.set_xticklabels(bx.get_xticklabels(),rotation=75)
-        sns.set(style="ticks", context="talk")
-        plt.style.use("dark_background")
-        fig = bx.get_figure()
-        sns.set(style="ticks", context="talk")
-        plt.style.use("dark_background")
-        ax = bx.axes
-        ax.tick_params(axis='x', colors='white')
-        ax.tick_params(axis='y', colors='white')
-        st.pyplot(fig, use_container_width=True)
-        st.markdown("Cette représentation graphique met en évidence le constat effectué précédemment à savoir que la plateforme Wii à un outlier. Il s'agit de Wii Sport qui fait des records de ventes par rapport aux autres jeux de Wii. Nos recherches nous ont indiqué que ce jeu est sorti en 2006 en même temps que la console Wii ce qui a participé à l'engouement et l'explosion des ventes. Le jeu faisait parti d'une offre bundle avec la Wii. La DS a également des valeurs extrêmes qu'il sera intéressant de regarder avec New Super Mario.")
-        st.subheader("Analyse de la corrélation de la variable Platform")
-        comp_platform = df[['Platform', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales',"Global_Sales"]]
-        # comp_genre
-        comp_map = comp_platform.groupby(by=['Platform']).sum().sort_values(by="Global_Sales",ascending=False)
-            # comp_map
-        plt.figure(figsize=(15, 10))
-        sns.set(font_scale=1)
-        ht = sns.heatmap(comp_map, annot = True, cmap ="cool", fmt = '.1f')
-        fig2 = ht.get_figure()
-        ax = ht.axes
-        ax.tick_params(axis='x', colors='white')
-        ax.tick_params(axis='y', colors='white')
-        st.pyplot(fig2,facecolor='black', use_container_width=True)
-
         
     if genre == "Publishers":
         st.markdown("### Zoom sur les Publishers")
@@ -992,6 +816,84 @@ if selected == "Analyse":
         st.pyplot(fig2,facecolor='black', use_container_width=True)
         st.markdown("Nintendo EAD est le leader du marché. En excluant Nintendo, on constate qu'il y a un studio qui se démarque en fonction des régions :  \n -    NA : EA Tiburon\n -    EU : EA Canada\n -    JP : Game Freak et Capcom")
 
+    if genre == 'Notes':
+            
+            st.subheader("Répartition des notes")
+            df['cat_Notes'] = pd.cut(df['Critic_Score'], bins = [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10], labels=['0 à 1','1 à 2','2 à 3','3 à 4','4 à 5','5 à 6','6 à 7', '7 à 8', '8 à 9', '9 à 10'])
+            # Remplacer les modalités peu nombreuse par Autre
+            df['cat_Notes'] = df['cat_Notes'].replace(['2 à 3', '1 à 2', '0 à 1'],['Autre','Autre','Autre'])
+            # Créer une serie pour analyser le genre
+            df3 = df['cat_Notes']
+            df3.str.split(',', expand=True).stack().reset_index(drop=True)
+            color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
+                                                    'lightskyblue','hotpink','palegreen','violet','gold','lavender',
+                                                    'salmon','aquamarine','plum','peachpuff']
+            fig = px.pie(df3,
+                        values=df3.value_counts(),
+                        names=df3.value_counts().index,
+                        color_discrete_sequence = color)
+            st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+            st.markdown("Nous avons représenté ici la répartition des notes de notre liste de jeux.Il sera intéressant d'observer par la suite si l'on peut s'appuyer sur les notes pour valider nos analyses sur les autres variables. On observe près de 75% des jeux qui ont une note comprise entre 5 et 8.")
+            
+        
+            st.markdown("## Zoom sur les Notes")
+            df['cat_Notes'] = pd.cut(df['Critic_Score'], bins = [0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10], labels=['0 à 1','1 à 2','2 à 3','3 à 4','4 à 5','5 à 6','6 à 7', '7 à 8', '8 à 9', '9 à 10'])
+            # Remplacer les modalités peu nombreuse par Autre
+            df['cat_Notes'] = df['cat_Notes'].replace(['2 à 3', '1 à 2', '0 à 1'],['Autre','Autre','Autre'])
+            # Créer une serie pour analyser le genre
+            df3 = df['cat_Notes']
+            df3.str.split(',', expand=True).stack().reset_index(drop=True)
+            DICT_NOTE = {'7 à 8': 'dodgerblue',
+                    '8 à 9': 'tomato',
+                    '6 à 7': 'mediumaquamarine',
+                    '5 à 6': 'mediumpurple',
+                    '4 à 5': 'sandybrown',
+                    '9 à 10': 'lightskyblue',
+                    '3 à 4': 'hotpink',
+                    'Autre': 'palegreen'}
+            col1,col2 = st.columns(2)
+            with col1:
+                st.markdown("### Réparition des notes par notes")
+                sns.set(style="ticks", context="talk")
+                plt.style.use("dark_background")
+                fig = plt.figure(figsize=(20, 10))
+                sns.barplot(y=df["cat_Notes"].value_counts().head(10).index,
+                        x=df["cat_Notes"].value_counts().head(10).values,
+                            palette = DICT_NOTE)
+                st.pyplot(fig,theme="streamlit", use_container_width=True)
+            with col2:
+                st.markdown("### Répartition des notes par ventes")
+                sns.set(style="ticks", context="talk")
+                plt.style.use("dark_background")
+                fig = plt.figure(figsize=(20, 10))
+                df_publisher = df[['cat_Notes', 'Global_Sales']]
+                df_publisher = df_publisher.groupby('cat_Notes')['Global_Sales'].sum().sort_values(ascending=False).head(10)
+                df_publisher = pd.DataFrame(df_publisher).reset_index()
+                sns.barplot(y="cat_Notes", x="Global_Sales",data=df_publisher, palette = DICT_NOTE);
+                st.pyplot(fig,theme="streamlit", use_container_width=True)
+            st.markdown("On peut donc considérer que les jeux sont en règle générale qualitatifs. De manière logique, les jeux les mieux notés sont ceux qui se vendent le plus.")
+            st.subheader("Evolution des notes par genres et par années")
+            fig, ax = plt.subplots(5, 1, sharex=True,sharey=True,
+                                figsize=(10, 5))
+            sns.set(style="ticks", context="talk")
+            plt.style.use("dark_background")
+            liste=['Misc','Action','Shooter','Adventure','Sports']
+            color=['violet','tomato','mediumaquamarine','hotpink','mediumpurple']
+            for index, i in enumerate(liste):
+                dfsource =pd.DataFrame(df[df.Genre ==i].groupby(['Genre', 'Year']).mean()).reset_index()
+                source = ColumnDataSource(dfsource)
+                sns.lineplot(x = "Year",
+                    y = "Critic_Score",
+                    data=dfsource,
+                    color=color[index],
+                    label=i,
+                            ax=ax[index])
+                ax[index].set_ylabel('')
+            st.pyplot(fig, theme="streamlit", use_container_width=True) 
+            st.markdown("Nous observons sur le graphique ci-contre l'évolution de la note par année sur les genres que nous avions commenté dans la partie Genre. Les genres Misc, Action, Sports semblent afficher une continuité. Nous observons pour Shooter et Adventures des pic de décroissances qu'il pourra être intéressant d'analyser plus en détails. Il y a-t-il un jeu qui aurait été mal reçu du public sur ces pics.")
+        
+
+
 # Modelisation
 if selected == "Modélisation":
     tab1, tab2, tab3 = st.tabs(["Introduction", "Etapes de la Modélisation", 'Résultats'])
@@ -1085,6 +987,7 @@ if selected == "Modélisation":
         plt.style.use("dark_background")
         st.pyplot(fig)
         st.markdown('>Les performances des modèles ne sont pas bonnes.  \nNous ne pouvons donc prévoir les ventes !')
+
 
 
 

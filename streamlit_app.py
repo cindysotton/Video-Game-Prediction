@@ -441,8 +441,8 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
             ht = sns.heatmap(comp_map, annot=True, cmap="cool", fmt='.1f', cbar=False)
             fig2 = ht.get_figure()
             ax = ht.axes
-            ax.tick_params(axis='x')
-            ax.tick_params(axis='y')
+            ax.tick_params(axis='x', colors='white')
+            ax.tick_params(axis='y', colors='white')
 
             st.pyplot(fig2, facecolor='white', use_container_width=True)
 

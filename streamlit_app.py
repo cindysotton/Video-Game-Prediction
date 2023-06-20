@@ -448,6 +448,98 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
 
             st.markdown("""Element intéressant : nous pouvons constater que pour le Japon les plateformes qui ressortent le plus sont "nomades" (3DS et DS)""")
 
+    if option == 'Genres':
+            # Remplacer les modalités peu nombreuse par Autre
+            #df['Genre'] = df['Genre'].replace(['Music', 'Party','Action-Adventure'],['Autre','Autre','Autre'])
+            
+            option_genre = st.multiselect(
+                '**Sélectionner les plateformes que vous souhaitez comparer :**',
+                options=df['Genre'].unique(),
+                default=df['Genre'].unique(),
+                key='genre_options'
+            )
+
+            # Selected platforms
+            if len(option_genre) == 0:
+                st.warning('Merci de sélectionner au moins un genre')
+
+            # Filter the data based on the selected platforms
+            df_filtered = df[df['Genre'].isin(option_genre)]
+
+            st.subheader('Répartition des ventes par genre')
+
+            # création d'un dictionnaire pour avoir les même couleurs
+            DICT_GENRE = {'Role-Playing': 'dodgerblue',
+            'Action': 'tomato',
+            'Shooter': 'mediumaquamarine',
+            'Sports': 'mediumpurple',
+            'Platform': 'sandybrown',
+            'Racing': 'lightskyblue',
+            'Adventure': 'hotpink',
+            'Fighting': 'palegreen',
+            'Misc': 'violet',
+            'Strategy': 'gold',
+            'Simulation': 'lavender',
+            'Puzzle': 'salmon',
+            'Autre': 'aquamarine'}
+
+            fig = px.pie(df_filtered,
+                        values='Global_Sales',
+                        names='Genre',
+                        color='Genre',
+                        color_discrete_map=DICT_GENRE)
+
+            st.plotly_chart(fig, use_container_width=True)
+            
+            st.subheader('Analyse des valeurs extrêmes par genres')
+            fig = px.box(df_filtered,
+             x='Genre',
+             y='Global_Sales',
+             color='Genre',
+             color_discrete_map=DICT_GENRE,
+             hover_data=['Name', 'Genre', 'Year', 'Studio', 'Publisher', 'Critic_Score', 'Global_Sales'])
+
+            fig.update_layout(
+                xaxis_title="",
+                yaxis_title="",
+                xaxis_tickangle=75,
+                height=600,
+                showlegend=False
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
+            st.markdown("""
+On observe globalement que tous les genres ont plusieurs plusieurs valeurs extrêmes.
+
+On note que les plus significatives sont: 
+* Mario pour "Platform"
+* Wii Sport pour "Sport"
+* Grand Theft Auto pour "Action"
+* Call of Duty pour "Shooter"
+* Pokemon "Role-Playing"
+* Mario Kart pour "Racing" """)
+
+
+            
+            st.subheader("Analyse de la corrélation des genres par zones géographiques")
+            comp_genre = df_filtered[['Genre', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
+            comp_map = comp_genre.groupby(by=['Genre']).sum()
+
+            plt.figure(figsize=(15, 10))
+            sns.set(font_scale=1)
+            ht = sns.heatmap(comp_map, annot=True, cmap="cool", fmt='.1f', cbar=False)
+            fig2 = ht.get_figure()
+            ax = ht.axes
+            ax.tick_params(axis='x', colors='white')
+            ax.tick_params(axis='y', colors='white')
+
+            st.pyplot(fig2, use_container_width=True)
+
+            st.markdown("""
+            Nous constatons qu'il y'a des préférences de genre en fonction des zones géographiques. Comme pour les plateformes le Japon a un genre qui se distingue plus que les autres.""")
+
+
+
 
 
 # Modelisation

@@ -379,7 +379,7 @@ if selected == "Analyse":
                          color_discrete_sequence=color)
             st.plotly_chart(fig, use_container_width=True)
             
-         with col2:
+        with col2:
             sns.set_theme(style = 'darkgrid')
             plt.style.use('dark_background')
             bx=sns.boxplot(x='Platform',

@@ -279,8 +279,8 @@ if selected == "Analyse":
     
     if option == "Le marché":
         st.title('VgChartz : Analyse des données')
-        st.markdown("Estimer les ventes d'un produit avant de le lancer est une étape essentielle dans la vie d'un produit. C'est ce que nous allons essayer de faire dans le cadre de ce projet.  \n Notre étude nous portera dans l'univers du jeu vidéo.")
-
+        
+        st.subheader('Evolution des ventes en millions')
         # EVOLUTION DES VENTES
         data_NA = df.groupby(by=['Year'])['NA_Sales'].sum().reset_index()
         data_EU = df.groupby(by=['Year'])['EU_Sales'].sum().reset_index()
@@ -294,9 +294,9 @@ if selected == "Analyse":
         fig.add_scatter(x=data_Others['Year'], y=data_Others['Other_Sales'], mode='lines', name='Other_Sales', line_color='aqua')
         fig.add_scatter(x=data_globales['Year'], y=data_globales['Global_Sales'], mode='lines', name='Global_Sales', line_color='gray')
         fig.update_layout(
-            xaxis_title='Year',
-            yaxis_title='Sales',
-            legend_title='Sales',
+            xaxis_title='Années',
+            yaxis_title='Ventes',
+            legend_title='Zones géographiques',
             width=800,
             height=600,
             yaxis_range=[0, 600],
@@ -307,7 +307,7 @@ if selected == "Analyse":
         st.markdown(
             """Le marché du jeu vidéo a commencé sa croissance à partir de la seconde moitié des années 90 dynamisé par le lancement de nouvelles plateformes: \n\n -   Sortie de la PlayStation en 1995 \n\n - Nouvel élan dans les années 2000 avec la sortie de la Nintendo 64. \n\n - Après une forte croissance (2005 à 2010), le marché revient à sa tendance initiale. """)
         
-        st.subheader("Ventes globales par zones géographiques")
+        st.subheader("Répartions des ventes par zones géographiques")
         df_areas = df[['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
         df_areas = df_areas.sum().reset_index()
         df_areas = df_areas.rename(columns={"index": "Areas", 0: "Sales"})
@@ -324,7 +324,7 @@ if selected == "Analyse":
         st.markdown(
             """Nos ventes se concentrent sur trois principaux marchés : North America, Europe, Japon (≈90%). Les ventes sur d'autres marchés sont inférieures à 10%. A noter la concentration particulière d'une part avec : \n North Amercia qui réalise près de la moitié des ventes. \n Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le nombre d'habitants.""")
         
-        st.subheader("Ventes globales par jeux")
+        st.subheader("Ventes par jeux vidéo")
         source = ColumnDataSource(df)
         hover = HoverTool(
         tooltips=[
@@ -333,14 +333,14 @@ if selected == "Analyse":
             ("Platform", "@Platform"),
             ("Studio", "@Studio"),
             ("Note", '@Critic_Score') ])
-        p98 = figure(plot_width=800, plot_height=700,x_axis_label='Year', y_axis_label='Global_Sales')
+        p98 = figure(plot_width=800, plot_height=700,x_axis_label='Années', y_axis_label='Ventes')
         doc = curdoc()
         doc.theme = 'dark_minimal'
         doc.add_root(p98)
         p98.circle(x='Year',y='Global_Sales',source = source,color='darkviolet',size=10)
         p98.add_tools(hover)
         st.bokeh_chart(p98, use_container_width=True)
-        st.markdown("Certains jeux ont connu un succès exceptionnel, c'est notamment le cas pour Wii Sport sorti en 2006 chez Nintendo.")
+        st.markdown("> Survolez les points du graphiques pour faire apparaître le détail. /n Certains jeux ont connu un succès exceptionnel, c'est notamment le cas pour Wii Sport sorti en 2006 chez Nintendo.")
         st.markdown("Ce graphique nous permet d'identifier les jeux qui se sont démarqués en terme de ventes et apprécier les variables en lien. On peut identifier des \"sagas\" qui ont bien marché (Mario, Pokemon, Grand Theft Auto).")
 
     if option == 'Plateformes':

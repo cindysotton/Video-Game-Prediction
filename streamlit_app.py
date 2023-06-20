@@ -482,6 +482,27 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
             'Simulation': 'lavender',
             'Puzzle': 'salmon',
             'Autre': 'aquamarine'}
+    
+            liste=['Role-Playing', 'Shooter', 'Racing', 'Party', 'Misc', 'Sports',
+           'Simulation', 'Action', 'Puzzle', 'Platform', 'Adventure',
+           'Strategy', 'Action-Adventure', 'Fighting', 'Music']
+            color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
+                                        'lightskyblue','hotpink','palegreen','violet','gold','lavender',
+                                        'salmon','aquamarine','plum','peachpuff']
+
+            p = figure(plot_width = 1000, plot_height = 600,x_axis_label='Year', y_axis_label='Genre')
+            for index, i in enumerate(liste):
+                dfsource =pd.DataFrame(df[df.Genre ==i].groupby(['Genre', 'Year']).count()).reset_index()
+                source = ColumnDataSource(dfsource)
+                p.line(x = "Year",
+                    y = "Name",
+                    line_width = 3,
+                    color=color[index],
+                    source = source,
+                    legend_label=i)
+
+            p.legend.click_policy="mute"
+            show(p)
 
             fig = px.pie(df_filtered,
                         values='Global_Sales',

@@ -479,6 +479,14 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
                 height=600
             )
             st.plotly_chart(fig)
+            st.markdown("""
+            Certains genres presque inconnus du paysage des jeux vidéos explosent sur certaines années. 
+
+C'est le cas du genre :
+* Action en 2009, avec 56 jeux sortis vs 30 à N-1.
+* Misc en 2009, 
+* Aventure en 2009, 
+* Sport qui passe d'un déclin vers 2004 à un regain en 2006 avec le lancement de la Wii. """)
 
             st.subheader('Répartition des ventes par genre')
 

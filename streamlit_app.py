@@ -466,14 +466,19 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
             # Filter the data based on the selected platforms
             df_filtered = df[df['Genre'].isin(option_genre)]
 
-            st.subheader('Evolution du nombre de jeux par genre')
+            st.subheader('Evolution des ventes par genre')
+            df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Genre']).count()).reset_index()
 
-            fig = px.line(df_filtered, x='Year', y='Genre', color='Genre',
-                          title='Nombre de jeux par genre et par année',
-                          labels={'Year': 'Année', 'Genre': 'Genre'})
-            
-            st.plotly_chart(fig, use_container_width=True)
+            fig = px.line(df_cumulative, x='Year', y='Global_Sales', color='Genre')
 
+            fig.update_layout(
+                xaxis_title='',
+                yaxis_title='',
+                legend_title='Genre',
+                width=800,
+                height=600
+            )
+            st.plotly_chart(fig)
 
             st.subheader('Répartition des ventes par genre')
 

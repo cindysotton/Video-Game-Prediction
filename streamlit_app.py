@@ -381,11 +381,14 @@ if selected == "Analyse":
         st.header('Zoom sur les genres')
         # Remplacer les modalités peu nombreuse par Autre
         df['Genre'] = df['Genre'].replace(['Music', 'Party','Action-Adventure'],['Autre','Autre','Autre'])
+        color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
+                                        'lightskyblue','hotpink','palegreen','violet','gold','lavender',
+                                        'salmon','aquamarine','plum','peachpuff']
 
         fig = px.pie(df,
                      values=df['Global_Sales'],
                      names=df['Genre'],
-                     #color_discrete_sequence=color
+                     color_discrete_sequence=color
                     )
         st.plotly_chart(fig, use_container_width=True)
     

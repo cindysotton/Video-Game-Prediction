@@ -409,6 +409,20 @@ if selected == "Analyse":
 
             st.pyplot(plt.gcf())
 
+            st.subheader("Analyse de la corrélation de la variable Platform")
+            comp_platform = df[['Platform', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
+            # comp_genre
+            comp_map = comp_platform.groupby(by=['Platform']).sum()
+                # comp_map
+            plt.figure(figsize=(15, 10))
+            sns.set(font_scale=1)
+            ht = sns.heatmap(comp_map, annot = True, cmap ="cool", fmt = '.1f')
+            fig2 = ht.get_figure()
+            ax = ht.axes
+            ax.tick_params(axis='x', colors='white')
+            ax.tick_params(axis='y', colors='white')
+            st.pyplot(fig2,facecolor='black', use_container_width=True)
+
     if option == 'Genres':
         st.header('Répartition des ventes par genre')
         # Remplacer les modalités peu nombreuse par Autre

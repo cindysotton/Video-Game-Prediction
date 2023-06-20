@@ -330,11 +330,14 @@ if selected == "Analyse":
         source = ColumnDataSource(df)
         hover = HoverTool(
         tooltips=[
-            ("name", "@Name"),
+            ("Nom", "@Name"),
             ("Genre", "@Genre"),
+            ("Année", "@Year"),
             ("Platform", "@Platform"),
             ("Studio", "@Studio"),
-            ("Note", '@Critic_Score') ])
+            ("Publisher", "@Publisher"),
+            ("Note", '@Critic_Score'),
+            ("Ventes", '@Global_Sales') ])
         p98 = figure(plot_width=800, plot_height=700,x_axis_label='Années', y_axis_label='Ventes')
         doc = curdoc()
         doc.theme = 'dark_minimal'
@@ -367,9 +370,6 @@ if selected == "Analyse":
              '3DS': 'aquamarine',
              'NS': 'plum',
              'N64': 'peachpuff'}
-            color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
-                                            'lightskyblue','hotpink','palegreen','violet','gold','lavender',
-                                            'salmon','aquamarine','plum','peachpuff']
     
             fig = px.pie(df,
              values='Global_Sales',
@@ -377,20 +377,22 @@ if selected == "Analyse":
              color='Platform',
              color_discrete_map=DICT_PLAT)
 
-            fig.update_layout(title='Sales Distribution by Platform')
-
             st.plotly_chart(fig, use_container_width=True)
             
 
-
+            st.subheader('Analyse des valeurs extrêmes par plateformes')
             fig = px.box(df[df.Platform.isin(list(df.Platform.value_counts().index))],
              x='Platform',
              y='Global_Sales',
              color='Platform',
-             color_discrete_map=DICT_PLAT)
+             color_discrete_map=DICT_PLAT,
+             hover_data=['Name','Genre','Year','Studio','Publisher','Critic_Score','Global_Sales'])
 
-            fig.update_layout(xaxis_title="Platforme", yaxis_title="Ventes")
-            fig.update_xaxes(tickangle=75)
+            fig.update_layout(
+                xaxis_title="Platforme",
+                yaxis_title="Ventes",
+                xaxis_tickangle=75,
+            )
 
             st.plotly_chart(fig, use_container_width=True)
 

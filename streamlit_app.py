@@ -468,9 +468,9 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
 
             st.subheader('Evolution du nombre de jeux par genre')
 
-            fig = px.line(df_filtered, x='Year', y='Name', color='Genre',
+            fig = px.line(df_filtered, x='Year', y='Genre', color='Genre',
                           title='Nombre de jeux par genre et par année',
-                          labels={'Year': 'Année', 'Name': 'Nombre de jeux'})
+                          labels={'Year': 'Année', 'Genre': 'Genre'})
             
             st.plotly_chart(fig, use_container_width=True)
 

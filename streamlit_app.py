@@ -372,10 +372,16 @@ if selected == "Analyse":
                                             'salmon','aquamarine','plum','peachpuff']
     
             fig = px.pie(df,
-                         values=df['Global_Sales'],
-                         names=df['Platform'],
-                         color_discrete_sequence=color)
+             values='Global_Sales',
+             names='Platform',
+             color='Platform',
+             color_discrete_map=DICT_PLAT)
+
+            fig.update_layout(title='Sales Distribution by Platform')
+
             st.plotly_chart(fig, use_container_width=True)
+            
+
 
             fig = px.box(df[df.Platform.isin(list(df.Platform.value_counts().index))],
              x='Platform',
@@ -383,9 +389,9 @@ if selected == "Analyse":
              color='Platform',
              color_discrete_map=DICT_PLAT)
 
-            fig.update_layout(xaxis_title="Platform", yaxis_title="Global Sales")
+            fig.update_layout(xaxis_title="Platforme", yaxis_title="Ventes")
             fig.update_xaxes(tickangle=75)
-            
+
             st.plotly_chart(fig, use_container_width=True)
 
     if option == 'Genres':

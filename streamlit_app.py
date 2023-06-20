@@ -347,8 +347,6 @@ if selected == "Analyse":
         st.markdown("Ce graphique nous permet d'identifier les jeux qui se sont démarqués en terme de ventes et apprécier les variables en lien. On peut identifier des \"sagas\" qui ont bien marché (Mario, Pokemon, Grand Theft Auto).")
 
     if option == 'Plateformes':
-        col1, col2 = st.columns(2)
-        with col1:
             st.header('Répartition des ventes par plateformes')
             # Remplacer les petites valeurs par autre aussi dans df
             df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
@@ -378,16 +376,17 @@ if selected == "Analyse":
                          names=df['Platform'],
                          color_discrete_sequence=color)
             st.plotly_chart(fig, use_container_width=True)
-            
-        with col2:
-            sns.set_theme(style = 'darkgrid')
-            plt.style.use('dark_background')
-            bx=sns.boxplot(x='Platform',
-                        y='Global_Sales',
-                        palette = DICT_PLAT,
-                        flierprops=flierprops,
-                        data=df[df.Platform.isin(list(df.Platform.value_counts().index))])
-            bx.set_xticklabels(bx.get_xticklabels(),rotation=75)
+
+            fig = px.box(df[df.Platform.isin(list(df.Platform.value_counts().index))],
+                                x='Platform',
+                                y='Global_Sales',
+                                color='Platform',
+                                color_discrete_map=DICT_PLAT)
+
+            fig.update_layout(xaxis_title="Platform", yaxis_title="Global Sales")
+            fig.update_xaxes(tickangle=75)
+
+            fig.show()
 
     if option == 'Genres':
         st.header('Répartition des ventes par genre')

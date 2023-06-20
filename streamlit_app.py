@@ -395,19 +395,7 @@ if selected == "Analyse":
             )
 
             st.plotly_chart(fig, use_container_width=True)
-
-            st.subheader('Prédominances des plateformes par Zones géographiques')
-            comp_platform = df[['Platform', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
-            comp_map = comp_platform.groupby(by=['Platform']).sum()
-
-            plt.figure(figsize=(15, 10))
-            sns.set(font_scale=1)
-            sns.heatmap(comp_map, annot=True, cmap="cool", fmt='.1f')
-
-            plt.xticks(fontsize=14)
-            plt.yticks(fontsize=14)
-
-            st.pyplot(plt.gcf())
+            st.markdown("Cette représentation graphique met en évidence le constat effectué précédemment à savoir que la plateforme Wii à un outlier. Il s'agit de Wii Sport qui fait des records de ventes par rapport aux autres jeux de Wii. Nos recherches nous ont indiqué que ce jeu est sorti en 2006 en même temps que la console Wii ce qui a participé à l'engouement et l'explosion des ventes. Le jeu faisait parti d'une offre bundle avec la Wii. La DS a également des valeurs extrêmes qu'il sera intéressant de regarder avec New Super Mario.")
 
             st.subheader("Analyse de la corrélation de la variable Platform")
             comp_platform = df[['Platform', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]

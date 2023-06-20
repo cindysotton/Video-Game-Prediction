@@ -302,7 +302,7 @@ if selected == "Analyse":
             yaxis_range=[0, 600],
         )
         st.plotly_chart(fig, use_container_width=True)
-        st.markdown("> Survolez les points du graphiques pour faire apparaître le détail.")
+        st.markdown("> Survolez le graphique pour faire apparaître le détail.")
 
         # PIE DE LA REPARTITION
         st.markdown(
@@ -321,7 +321,7 @@ if selected == "Analyse":
                 color_discrete_sequence=colors
         )
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-        st.markdown("> Survolez les points du graphiques pour faire apparaître le détail.")
+        st.markdown("> Survolez le graphique pour faire apparaître le détail.")
         
         st.markdown(
             """Nos ventes se concentrent sur trois principaux marchés : North America, Europe, Japon (≈90%). Les ventes sur d'autres marchés sont inférieures à 10%. A noter la concentration particulière d'une part avec : \n North Amercia qui réalise près de la moitié des ventes. \n Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le nombre d'habitants.""")
@@ -342,7 +342,7 @@ if selected == "Analyse":
         p98.circle(x='Year',y='Global_Sales',source = source,color='darkviolet',size=10)
         p98.add_tools(hover)
         st.bokeh_chart(p98, use_container_width=True)
-        st.markdown("> Survolez les points du graphiques pour faire apparaître le détail.")
+        st.markdown("> Survolez les points du graphique pour faire apparaître le détail.")
         st.markdown("Certains jeux ont connu un succès exceptionnel, c'est notamment le cas pour Wii Sport sorti en 2006 chez Nintendo.")
         st.markdown("Ce graphique nous permet d'identifier les jeux qui se sont démarqués en terme de ventes et apprécier les variables en lien. On peut identifier des \"sagas\" qui ont bien marché (Mario, Pokemon, Grand Theft Auto).")
 

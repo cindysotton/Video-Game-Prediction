@@ -42,7 +42,7 @@ from sklearn.model_selection import GridSearchCV
 def set_theme():
     st.set_page_config(
         page_title="Game Project Prediction",
-        page_icon=":video_game:",
+        page_icon="🎮",
         layout="centered",
         initial_sidebar_state="expanded",
     )
@@ -395,6 +395,19 @@ if selected == "Analyse":
             )
 
             st.plotly_chart(fig, use_container_width=True)
+
+            st.subheader('Prédominances des plateformes par Zones géographiques')
+            comp_platform = df[['Platform', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
+            comp_map = comp_platform.groupby(by=['Platform']).sum()
+
+            plt.figure(figsize=(15, 10))
+            sns.set(font_scale=1)
+            sns.heatmap(comp_map, annot=True, cmap="cool", fmt='.1f')
+
+            plt.xticks(fontsize=14)
+            plt.yticks(fontsize=14)
+
+            st.pyplot(plt.gcf())
 
     if option == 'Genres':
         st.header('Répartition des ventes par genre')

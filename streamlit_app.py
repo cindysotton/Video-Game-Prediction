@@ -383,7 +383,8 @@ if selected == "Analyse":
         fig = px.pie(df,
                      values=df['Global_Sales'],
                      names=df['Genre'],
-                     color_discrete_sequence=color)
+                     #color_discrete_sequence=color
+                    )
         st.plotly_chart(fig, use_container_width=True)
     
     if option == 'Publishers':
@@ -392,7 +393,8 @@ if selected == "Analyse":
         fig = px.pie(df,
                      values=df['Global_Sales'],
                      names=df['Publisher'],
-                     color_discrete_sequence=color)
+                     #color_discrete_sequence=color
+                    )
         st.plotly_chart(fig, use_container_width=True)
 
     if option == 'Studios':
@@ -401,7 +403,8 @@ if selected == "Analyse":
         fig = px.pie(df,
                      values=df['Global_Sales'],
                      names=df['Studio'],
-                     color_discrete_sequence=color)
+                     #color_discrete_sequence=color
+                    )
         st.plotly_chart(fig, use_container_width=True)
 
     if option == 'Notes':
@@ -410,7 +413,8 @@ if selected == "Analyse":
         fig = px.pie(df,
                      values=df['Global_Sales'],
                      names=df['Note'],
-                     color_discrete_sequence=color)
+                     #color_discrete_sequence=color
+                    )
         st.plotly_chart(fig, use_container_width=True)
 
 

@@ -303,10 +303,14 @@ if selected == "Analyse":
         )
         st.plotly_chart(fig, use_container_width=True)
         st.markdown("> Survolez le graphique pour faire apparaître le détail.")
+        st.markdown(
+            """Le marché du jeu vidéo a commencé sa croissance à partir de la seconde moitié des années 90 dynamisé par le lancement de nouvelles plateformes:
+* Sortie de la PlayStation en 1995
+* Nouvel élan dans les années 2000 avec la sortie de la Nintendo 64
+
+Après une forte croissance (2005 à 2010), le marché revient à sa tendance initiale. """)
 
         # PIE DE LA REPARTITION
-        st.markdown(
-            """Le marché du jeu vidéo a commencé sa croissance à partir de la seconde moitié des années 90 dynamisé par le lancement de nouvelles plateformes: \n\n -   Sortie de la PlayStation en 1995 \n\n - Nouvel élan dans les années 2000 avec la sortie de la Nintendo 64. \n\n - Après une forte croissance (2005 à 2010), le marché revient à sa tendance initiale. """)
         
         st.subheader("Répartions des ventes par zones géographiques")
         df_areas = df[['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
@@ -324,7 +328,12 @@ if selected == "Analyse":
         st.markdown("> Survolez le graphique pour faire apparaître le détail.")
         
         st.markdown(
-            """Nos ventes se concentrent sur trois principaux marchés : North America, Europe, Japon (≈90%). Les ventes sur d'autres marchés sont inférieures à 10%. A noter la concentration particulière d'une part avec : \n North Amercia qui réalise près de la moitié des ventes. \n Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le nombre d'habitants.""")
+            """Nos ventes se concentrent sur trois principaux marchés : North America, Europe, Japon (≈90%). 
+Les ventes sur d'autres marchés sont inférieures à 10%. 
+
+A noter la concentration particulière d'une part avec :
+North Amercia qui réalise près de la moitié des ventes
+Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le nombre d'habitants.""")
         
         st.subheader("Ventes par jeux vidéo")
         source = ColumnDataSource(df)
@@ -350,111 +359,95 @@ if selected == "Analyse":
         st.markdown("Ce graphique nous permet d'identifier les jeux qui se sont démarqués en terme de ventes et apprécier les variables en lien. On peut identifier des \"sagas\" qui ont bien marché (Mario, Pokemon, Grand Theft Auto).")
 
     if option == 'Plateformes':
-            st.header('Répartition des ventes par plateformes')
-            # Remplacer les petites valeurs par autre aussi dans df
-            df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
-                   'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
+            # Replace smaller values with 'Autre' in the 'Platform' column
+            df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne', 'XB', 'DC'], ['Autre', 'Autre', 'Autre', 'Autre', 'Autre'])
+
+            option_plateforme = st.multiselect(
+                '**Sélectionner les plateformes que vous souhaitez comparer :**',
+                options=df['Platform'].unique(),
+                default=df['Platform'].unique(),
+                key='plateformes_options'
+            )
+
+            # Selected platforms
+            if len(option_plateforme) == 0:
+                st.warning('Merci de sélectionner au moins une plateforme')
+
+            # Filter the data based on the selected platforms
+            df_filtered = df[df['Platform'].isin(option_plateforme)]
+
+            st.subheader('Répartition des ventes par plateformes')
+
             # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
             DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
-             'PSP': 'tomato',
-             'GBA': 'mediumaquamarine',
-             'PC': 'mediumpurple',
-             'DS': 'sandybrown',
-             'PS3': 'lightskyblue',
-             'GC': 'hotpink',
-             'PS': 'palegreen',
-             'Wii': 'violet',
-             'PS2': 'gold',
-             'Autre': 'lavender',
-             'X360': 'salmon',
-             '3DS': 'aquamarine',
-             'NS': 'plum',
-             'N64': 'peachpuff'}
-    
-            fig = px.pie(df,
-             values='Global_Sales',
-             names='Platform',
-             color='Platform',
-             color_discrete_map=DICT_PLAT)
+                        'PSP': 'tomato',
+                        'GBA': 'mediumaquamarine',
+                        'PC': 'mediumpurple',
+                        'DS': 'sandybrown',
+                        'PS3': 'lightskyblue',
+                        'GC': 'hotpink',
+                        'PS': 'palegreen',
+                        'Wii': 'violet',
+                        'PS2': 'gold',
+                        'Autre': 'lavender',
+                        'X360': 'salmon',
+                        '3DS': 'aquamarine',
+                        'NS': 'plum',
+                        'N64': 'peachpuff'}
+
+            fig = px.pie(df_filtered,
+                        values='Global_Sales',
+                        names='Platform',
+                        color='Platform',
+                        color_discrete_map=DICT_PLAT)
 
             st.plotly_chart(fig, use_container_width=True)
-            
+            st.markdown("""
+            Nous constatons que les parts de marché se répartissent de manière équilibré entre les plateformes.
 
+A noter que certaines plateformes tendent à disparaitre car remplacer par leur upgrade (PS2 qui devient la PS3).""")
+
+            
             st.subheader('Analyse des valeurs extrêmes par plateformes')
-            fig = px.box(df[df.Platform.isin(list(df.Platform.value_counts().index))],
+            fig = px.box(df_filtered,
              x='Platform',
              y='Global_Sales',
              color='Platform',
              color_discrete_map=DICT_PLAT,
-             hover_data=['Name','Genre','Year','Studio','Publisher','Critic_Score','Global_Sales'])
+             hover_data=['Name', 'Genre', 'Year', 'Studio', 'Publisher', 'Critic_Score', 'Global_Sales'])
 
             fig.update_layout(
-                xaxis_title="Platforme",
-                yaxis_title="Ventes",
+                xaxis_title="",
+                yaxis_title="",
                 xaxis_tickangle=75,
+                height=600,
+                showlegend=False
             )
 
             st.plotly_chart(fig, use_container_width=True)
-            st.markdown("Cette représentation graphique met en évidence le constat effectué précédemment à savoir que la plateforme Wii à un outlier. Il s'agit de Wii Sport qui fait des records de ventes par rapport aux autres jeux de Wii. Nos recherches nous ont indiqué que ce jeu est sorti en 2006 en même temps que la console Wii ce qui a participé à l'engouement et l'explosion des ventes. Le jeu faisait parti d'une offre bundle avec la Wii. La DS a également des valeurs extrêmes qu'il sera intéressant de regarder avec New Super Mario.")
+            st.markdown("""
+Cette représentation graphique met en évidence le constat effectué précédemment à savoir que la plateforme Wii à un outlier. Il s'agit de Wii Sport qui fait des records de ventes par rapport aux autres jeux de Wii. Nos recherches nous ont indiqué que ce jeu est sorti en 2006 en même temps que la console Wii ce qui a participé à l'engouement et l'explosion des ventes. Le jeu faisait parti d'une offre bundle avec la Wii. 
 
-            st.subheader("Analyse de la corrélation de la variable Platform")
-            comp_platform = df[['Platform', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
-            # comp_genre
+La DS a également des valeurs extrêmes qu'il sera intéressant de regarder avec New Super Mario.""")
+
+
+            
+            st.subheader("Analyse de la corrélation des plateformes par zones géographiques")
+            comp_platform = df_filtered[['Platform', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
             comp_map = comp_platform.groupby(by=['Platform']).sum()
-                # comp_map
+
             plt.figure(figsize=(15, 10))
             sns.set(font_scale=1)
-            ht = sns.heatmap(comp_map, annot = True, cmap ="cool", fmt = '.1f')
+            ht = sns.heatmap(comp_map, annot=True, cmap="cool", fmt='.1f', cbar=False)
             fig2 = ht.get_figure()
             ax = ht.axes
-            ax.tick_params(axis='x', colors='white')
-            ax.tick_params(axis='y', colors='white')
-            st.pyplot(fig2,facecolor='black', use_container_width=True)
+            ax.tick_params(axis='x')
+            ax.tick_params(axis='y')
 
-    if option == 'Genres':
-        st.header('Répartition des ventes par genre')
-        # Remplacer les modalités peu nombreuse par Autre
-        df['Genre'] = df['Genre'].replace(['Music', 'Party','Action-Adventure'],['Autre','Autre','Autre'])
-        color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
-                                        'lightskyblue','hotpink','palegreen','violet','gold','lavender',
-                                        'salmon','aquamarine','plum','peachpuff']
+            st.pyplot(fig2, facecolor='white', use_container_width=True)
 
-        fig = px.pie(df,
-                     values=df['Global_Sales'],
-                     names=df['Genre'],
-                     color_discrete_sequence=color
-                    )
-        st.plotly_chart(fig, use_container_width=True)
-    
-    if option == 'Publishers':
-        st.header('Répartition des ventes par publishers')
+            st.markdown("""Element intéressant : nous pouvons constater que pour le Japon les plateformes qui ressortent le plus sont "nomades" (3DS et DS)""")
 
-        fig = px.pie(df,
-                     values=df['Global_Sales'],
-                     names=df['Publisher'],
-                     #color_discrete_sequence=color
-                    )
-        st.plotly_chart(fig, use_container_width=True)
-
-    if option == 'Studios':
-        st.header('Répartition des ventes par studio')
-
-        fig = px.pie(df,
-                     values=df['Global_Sales'],
-                     names=df['Studio'],
-                     #color_discrete_sequence=color
-                    )
-        st.plotly_chart(fig, use_container_width=True)
-
-    if option == 'Notes':
-        st.header('Répartition des ventes par note')
-
-        fig = px.pie(df,
-                     values=df['Global_Sales'],
-                     names=df['Note'],
-                     #color_discrete_sequence=color
-                    )
-        st.plotly_chart(fig, use_container_width=True)
 
 
 # Modelisation

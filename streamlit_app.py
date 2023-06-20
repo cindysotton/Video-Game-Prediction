@@ -444,7 +444,7 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
             ax.tick_params(axis='x', colors='white')
             ax.tick_params(axis='y', colors='white')
 
-            st.pyplot(fig2, facecolor='white', use_container_width=True)
+            st.pyplot(fig2, use_container_width=True)
 
             st.markdown("""Element intéressant : nous pouvons constater que pour le Japon les plateformes qui ressortent le plus sont "nomades" (3DS et DS)""")
 

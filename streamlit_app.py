@@ -347,41 +347,50 @@ if selected == "Analyse":
         st.markdown("Ce graphique nous permet d'identifier les jeux qui se sont démarqués en terme de ventes et apprécier les variables en lien. On peut identifier des \"sagas\" qui ont bien marché (Mario, Pokemon, Grand Theft Auto).")
 
     if option == 'Plateformes':
-        st.header('Zoom sur les plateformes')
-        # Remplacer les petites valeurs par autre aussi dans df
-        df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
-               'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
-        # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
-        DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
-         'PSP': 'tomato',
-         'GBA': 'mediumaquamarine',
-         'PC': 'mediumpurple',
-         'DS': 'sandybrown',
-         'PS3': 'lightskyblue',
-         'GC': 'hotpink',
-         'PS': 'palegreen',
-         'Wii': 'violet',
-         'PS2': 'gold',
-         'Autre': 'lavender',
-         'X360': 'salmon',
-         '3DS': 'aquamarine',
-         'NS': 'plum',
-         'N64': 'peachpuff'}
-        color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
-                                        'lightskyblue','hotpink','palegreen','violet','gold','lavender',
-                                        'salmon','aquamarine','plum','peachpuff']
-
-        fig = px.pie(df,
-                     values=df['Global_Sales'],
-                     names=df['Platform'],
-                     color_discrete_sequence=color)
-        st.plotly_chart(fig, use_container_width=True)
-
-        st.markdown("Nous constatons que les parts de marché se répartissent de manière équilibré entre les plateformes.A noter que certaines plateformes tendent à disparaitre car remplacer par leur upgrade (PS2 qui devient la PS3).")
-
+        col1, col2 = st.columns(2)
+            with col1:
+                st.header('Répartition des ventes par plateformes')
+                # Remplacer les petites valeurs par autre aussi dans df
+                df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
+                       'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
+                # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
+                DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
+                 'PSP': 'tomato',
+                 'GBA': 'mediumaquamarine',
+                 'PC': 'mediumpurple',
+                 'DS': 'sandybrown',
+                 'PS3': 'lightskyblue',
+                 'GC': 'hotpink',
+                 'PS': 'palegreen',
+                 'Wii': 'violet',
+                 'PS2': 'gold',
+                 'Autre': 'lavender',
+                 'X360': 'salmon',
+                 '3DS': 'aquamarine',
+                 'NS': 'plum',
+                 'N64': 'peachpuff'}
+                color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
+                                                'lightskyblue','hotpink','palegreen','violet','gold','lavender',
+                                                'salmon','aquamarine','plum','peachpuff']
+        
+                fig = px.pie(df,
+                             values=df['Global_Sales'],
+                             names=df['Platform'],
+                             color_discrete_sequence=color)
+                st.plotly_chart(fig, use_container_width=True)
+                
+             with col2:
+                sns.set_theme(style = 'darkgrid')
+                plt.style.use('dark_background')
+                bx=sns.boxplot(x='Platform',
+                            y='Global_Sales',
+                            palette = DICT_PLAT,
+                            flierprops=flierprops,
+                            data=df[df.Platform.isin(list(df.Platform.value_counts().index))])
+                bx.set_xticklabels(bx.get_xticklabels(),rotation=75)
 
     if option == 'Genres':
-        st.header('Zoom sur les genres')
+        st.header('Répartition des ventes par genre')
         # Remplacer les modalités peu nombreuse par Autre
         df['Genre'] = df['Genre'].replace(['Music', 'Party','Action-Adventure'],['Autre','Autre','Autre'])
         color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
@@ -396,7 +405,7 @@ if selected == "Analyse":
         st.plotly_chart(fig, use_container_width=True)
     
     if option == 'Publishers':
-        st.header('Zoom sur les publishers')
+        st.header('Répartition des ventes par publishers')
 
         fig = px.pie(df,
                      values=df['Global_Sales'],
@@ -406,7 +415,7 @@ if selected == "Analyse":
         st.plotly_chart(fig, use_container_width=True)
 
     if option == 'Studios':
-        st.header('Zoom sur les studio')
+        st.header('Répartition des ventes par studio')
 
         fig = px.pie(df,
                      values=df['Global_Sales'],
@@ -416,7 +425,7 @@ if selected == "Analyse":
         st.plotly_chart(fig, use_container_width=True)
 
     if option == 'Notes':
-        st.header('Zoom sur les notes')
+        st.header('Répartition des ventes par note')
 
         fig = px.pie(df,
                      values=df['Global_Sales'],

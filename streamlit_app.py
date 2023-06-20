@@ -339,6 +339,9 @@ if selected == "Analyse":
             ("Note", '@Critic_Score'),
             ("Ventes", '@Global_Sales') ])
         p98 = figure(plot_width=800, plot_height=700,x_axis_label='Années', y_axis_label='Ventes')
+        doc = curdoc()
+        doc.theme = 'dark_minimal'
+        doc.add_root(p98)
         p98.circle(x='Year',y='Global_Sales',source = source,color='darkviolet',size=10)
         p98.add_tools(hover)
         st.bokeh_chart(p98, use_container_width=True)

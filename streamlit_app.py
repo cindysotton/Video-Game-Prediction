@@ -348,46 +348,46 @@ if selected == "Analyse":
 
     if option == 'Plateformes':
         col1, col2 = st.columns(2)
-            with col1:
-                st.header('Répartition des ventes par plateformes')
-                # Remplacer les petites valeurs par autre aussi dans df
-                df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
-                       'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
-                # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
-                DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
-                 'PSP': 'tomato',
-                 'GBA': 'mediumaquamarine',
-                 'PC': 'mediumpurple',
-                 'DS': 'sandybrown',
-                 'PS3': 'lightskyblue',
-                 'GC': 'hotpink',
-                 'PS': 'palegreen',
-                 'Wii': 'violet',
-                 'PS2': 'gold',
-                 'Autre': 'lavender',
-                 'X360': 'salmon',
-                 '3DS': 'aquamarine',
-                 'NS': 'plum',
-                 'N64': 'peachpuff'}
-                color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
-                                                'lightskyblue','hotpink','palegreen','violet','gold','lavender',
-                                                'salmon','aquamarine','plum','peachpuff']
-        
-                fig = px.pie(df,
-                             values=df['Global_Sales'],
-                             names=df['Platform'],
-                             color_discrete_sequence=color)
-                st.plotly_chart(fig, use_container_width=True)
-                
-             with col2:
-                sns.set_theme(style = 'darkgrid')
-                plt.style.use('dark_background')
-                bx=sns.boxplot(x='Platform',
-                            y='Global_Sales',
-                            palette = DICT_PLAT,
-                            flierprops=flierprops,
-                            data=df[df.Platform.isin(list(df.Platform.value_counts().index))])
-                bx.set_xticklabels(bx.get_xticklabels(),rotation=75)
+        with col1:
+            st.header('Répartition des ventes par plateformes')
+            # Remplacer les petites valeurs par autre aussi dans df
+            df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
+                   'XB', 'DC'],['Autre','Autre','Autre','Autre','Autre'])
+            # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
+            DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
+             'PSP': 'tomato',
+             'GBA': 'mediumaquamarine',
+             'PC': 'mediumpurple',
+             'DS': 'sandybrown',
+             'PS3': 'lightskyblue',
+             'GC': 'hotpink',
+             'PS': 'palegreen',
+             'Wii': 'violet',
+             'PS2': 'gold',
+             'Autre': 'lavender',
+             'X360': 'salmon',
+             '3DS': 'aquamarine',
+             'NS': 'plum',
+             'N64': 'peachpuff'}
+            color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
+                                            'lightskyblue','hotpink','palegreen','violet','gold','lavender',
+                                            'salmon','aquamarine','plum','peachpuff']
+    
+            fig = px.pie(df,
+                         values=df['Global_Sales'],
+                         names=df['Platform'],
+                         color_discrete_sequence=color)
+            st.plotly_chart(fig, use_container_width=True)
+            
+         with col2:
+            sns.set_theme(style = 'darkgrid')
+            plt.style.use('dark_background')
+            bx=sns.boxplot(x='Platform',
+                        y='Global_Sales',
+                        palette = DICT_PLAT,
+                        flierprops=flierprops,
+                        data=df[df.Platform.isin(list(df.Platform.value_counts().index))])
+            bx.set_xticklabels(bx.get_xticklabels(),rotation=75)
 
     if option == 'Genres':
         st.header('Répartition des ventes par genre')

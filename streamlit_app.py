@@ -272,12 +272,12 @@ Le dataset obtenu est celui utilisé pour la visualisation et les statistiques""
 
 
 if selected == "Analyse":
-    genre = st.radio(
+    option = st.radio(
     "Menu:",
-    ('Le marché','Plateformes', 'Publishers', 'Studios','Genres','Notes'))
+    ('Le marché','Plateformes', 'Genres', 'Studios','Publishers','Notes'))
     st.divider()
     
-    if genre == "Le marché":
+    if option == "Le marché":
         st.title('VgChartz : Analyse des données')
         st.markdown("Estimer les ventes d'un produit avant de le lancer est une étape essentielle dans la vie d'un produit. C'est ce que nous allons essayer de faire dans le cadre de ce projet.  \n Notre étude nous portera dans l'univers du jeu vidéo.")
 
@@ -343,7 +343,7 @@ if selected == "Analyse":
         st.markdown("Certains jeux ont connu un succès exceptionnel, c'est notamment le cas pour Wii Sport sorti en 2006 chez Nintendo.")
         st.markdown("Ce graphique nous permet d'identifier les jeux qui se sont démarqués en terme de ventes et apprécier les variables en lien. On peut identifier des \"sagas\" qui ont bien marché (Mario, Pokemon, Grand Theft Auto).")
 
-    if genre == 'Plateformes':
+    if option == 'Plateformes':
         st.header('Zoom sur les plateformes')
         # Remplacer les petites valeurs par autre aussi dans df
         df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne',
@@ -376,33 +376,43 @@ if selected == "Analyse":
 
         st.markdown("Nous constatons que les parts de marché se répartissent de manière équilibré entre les plateformes.A noter que certaines plateformes tendent à disparaitre car remplacer par leur upgrade (PS2 qui devient la PS3).")
 
-        col1,col2 = st.columns(2)
-        with col1: 
-           
-            fig = px.bar(df, x="Global_Sales", y="Platform", color=DICT_PLAT,
-                         color_discrete_map=DICT_PLAT, orientation="h",
-                         facet_col="",
-                         labels={"Global_Sales": "Global Sales", "Platform": "Platform"},
-                         title="Nombre de ventes median par plateforme",
-                         height=400)
-            
-            fig.update_layout(xaxis_title="Global Sales", yaxis_title="Platform", showlegend=False)
-            fig.update_traces(marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
-            
-            fig2 = px.bar(df, x="Global_Sales", y="Platform", color=DICT_PLAT,
-                          color_discrete_map=DICT_PLAT, orientation="h",
-                          facet_col="",
-                          labels={"Global_Sales": "Global Sales", "Platform": "Platform"},
-                          title="Nombre de ventes moyen par plateforme",
-                          height=400)
-            
-            fig2.update_layout(xaxis_title="Global Sales", yaxis_title="Platform", showlegend=False)
-            fig2.update_traces(marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
-            
-            fig.show()
-            fig2.show()
-            
-        
+
+    if option == 'Genres':
+        st.header('Zoom sur les genres')
+
+        fig = px.pie(df,
+                     values=df['Global_Sales'],
+                     names=df['Genre'],
+                     color_discrete_sequence=color)
+        st.plotly_chart(fig, use_container_width=True)
+    
+    if option == 'Publishers':
+        st.header('Zoom sur les publishers')
+
+        fig = px.pie(df,
+                     values=df['Global_Sales'],
+                     names=df['Publisher'],
+                     color_discrete_sequence=color)
+        st.plotly_chart(fig, use_container_width=True)
+
+    if option == 'Studios':
+        st.header('Zoom sur les studio')
+
+        fig = px.pie(df,
+                     values=df['Global_Sales'],
+                     names=df['Studio'],
+                     color_discrete_sequence=color)
+        st.plotly_chart(fig, use_container_width=True)
+
+    if option == 'Notes':
+        st.header('Zoom sur les notes')
+
+        fig = px.pie(df,
+                     values=df['Global_Sales'],
+                     names=df['Note'],
+                     color_discrete_sequence=color)
+        st.plotly_chart(fig, use_container_width=True)
+
 
 # Modelisation
 if selected == "Modélisation":

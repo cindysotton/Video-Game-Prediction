@@ -379,6 +379,8 @@ if selected == "Analyse":
 
     if option == 'Genres':
         st.header('Zoom sur les genres')
+        # Remplacer les modalités peu nombreuse par Autre
+        df['Genre'] = df['Genre'].replace(['Music', 'Party','Action-Adventure'],['Autre','Autre','Autre'])
 
         fig = px.pie(df,
                      values=df['Global_Sales'],

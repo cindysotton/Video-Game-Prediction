@@ -378,15 +378,15 @@ if selected == "Analyse":
             st.plotly_chart(fig, use_container_width=True)
 
             fig = px.box(df[df.Platform.isin(list(df.Platform.value_counts().index))],
-                                x='Platform',
-                                y='Global_Sales',
-                                color='Platform',
-                                color_discrete_map=DICT_PLAT)
+             x='Platform',
+             y='Global_Sales',
+             color='Platform',
+             color_discrete_map=DICT_PLAT)
 
             fig.update_layout(xaxis_title="Platform", yaxis_title="Global Sales")
             fig.update_xaxes(tickangle=75)
-
-            fig.show()
+            
+            st.plotly_chart(fig, use_container_width=True)
 
     if option == 'Genres':
         st.header('Répartition des ventes par genre')

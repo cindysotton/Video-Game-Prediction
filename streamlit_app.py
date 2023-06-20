@@ -466,26 +466,22 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
             # Filter the data based on the selected platforms
             df_filtered = df[df['Genre'].isin(option_genre)]
 
-            liste=['Role-Playing', 'Shooter', 'Racing', 'Party', 'Misc', 'Sports',
-           'Simulation', 'Action', 'Puzzle', 'Platform', 'Adventure',
-           'Strategy', 'Action-Adventure', 'Fighting', 'Music']
-            color = ['dodgerblue','tomato','mediumaquamarine','mediumpurple','sandybrown',
-                                        'lightskyblue','hotpink','palegreen','violet','gold','lavender',
-                                        'salmon','aquamarine','plum','peachpuff']
+            st.subheader('Evolution du nombre de jeux par année')
 
-            p = figure(plot_width = 1000, plot_height = 600,x_axis_label='Year', y_axis_label='Genre')
-            for index, i in enumerate(liste):
-                dfsource =pd.DataFrame(df_filtered[df_filtered.Genre ==i].groupby(['Genre', 'Year']).count()).reset_index()
+            p = figure(plot_width=1000, plot_height=600, x_axis_label='Year', y_axis_label='Genre')
+            for index, genre in enumerate(option_genre):
+                dfsource = df_filtered[df_filtered['Genre'] == genre].groupby(['Genre', 'Year']).count().reset_index()
                 source = ColumnDataSource(dfsource)
-                p.line(x = "Year",
-                    y = "Name",
-                    line_width = 3,
-                    color=color[index],
-                    source = source,
-                    legend_label=i)
+                p.line(x="Year",
+                       y="Name",
+                       line_width=3,
+                       color=color[index],
+                       source=source,
+                       legend_label=genre)
+            
+            p.legend.click_policy = "mute"
+            st.bokeh_chart(p, use_container_width=True)
 
-            p.legend.click_policy="mute"
-            show(p)
 
             st.subheader('Répartition des ventes par genre')
 

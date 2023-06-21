@@ -376,12 +376,10 @@ Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le n
             # Filter the data based on the selected platforms
             df_filtered = df[df['Platform'].isin(option_plateforme)]
 
-            st.subheader('Répartition des ventes par plateformes')
-
             # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
             DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
                         'PSP': 'tomato',
-                        'GBA': 'mediumaquamarine',
+                        'GBA': 'mediumaquamarine', 
                         'PC': 'mediumpurple',
                         'DS': 'sandybrown',
                         'PS3': 'lightskyblue',
@@ -394,7 +392,22 @@ Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le n
                         '3DS': 'aquamarine',
                         'NS': 'plum',
                         'N64': 'peachpuff'}
+            
+            st.subheader('Evolution des ventes par plateformes')
+            df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Platform']).count()).reset_index()
 
+            fig = px.line(df_cumulative, x='Year', y='Global_Sales', color='Platform', color_discrete_map=DICT_PLAT)
+
+            fig.update_layout(
+                xaxis_title='',
+                yaxis_title='',
+                legend_title='Platform',
+                width=800,
+                height=600
+            )
+            st.plotly_chart(fig)
+            
+            st.subheader('Répartition des ventes par plateformes')
             fig = px.pie(df_filtered,
                         values='Global_Sales',
                         names='Platform',
@@ -448,12 +461,13 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
 
             st.markdown("""Element intéressant : nous pouvons constater que pour le Japon les plateformes qui ressortent le plus sont "nomades" (3DS et DS)""")
 
+
     if option == 'Genres':
             # Remplacer les modalités peu nombreuse par Autre
             #df['Genre'] = df['Genre'].replace(['Music', 'Party','Action-Adventure'],['Autre','Autre','Autre'])
             
             option_genre = st.multiselect(
-                '**Sélectionner les plateformes que vous souhaitez comparer :**',
+                '**Sélectionner les genres que vous souhaitez comparer :**',
                 options=df['Genre'].unique(),
                 default=df['Genre'].unique(),
                 key='genre_options'
@@ -466,10 +480,27 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
             # Filter the data based on the selected platforms
             df_filtered = df[df['Genre'].isin(option_genre)]
 
+            
+
+            # création d'un dictionnaire pour avoir les même couleurs
+            DICT_GENRE = {'Role-Playing': 'dodgerblue',
+            'Action': 'tomato',
+            'Shooter': 'mediumaquamarine',
+            'Sports': 'mediumpurple',
+            'Platform': 'sandybrown',
+            'Racing': 'lightskyblue',
+            'Adventure': 'hotpink',
+            'Fighting': 'palegreen',
+            'Misc': 'violet',
+            'Strategy': 'gold',
+            'Simulation': 'lavender',
+            'Puzzle': 'salmon',
+            'Autre': 'aquamarine'}
+
             st.subheader('Evolution des ventes par genre')
             df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Genre']).count()).reset_index()
 
-            fig = px.line(df_cumulative, x='Year', y='Global_Sales', color='Genre')
+            fig = px.line(df_cumulative, x='Year', y='Global_Sales', color='Genre', color_discrete_map=DICT_GENRE)
 
             fig.update_layout(
                 xaxis_title='',
@@ -489,22 +520,6 @@ C'est le cas du genre :
 * Sport qui passe d'un déclin vers 2004 à un regain en 2006 avec le lancement de la Wii. """)
 
             st.subheader('Répartition des ventes par genre')
-
-            # création d'un dictionnaire pour avoir les même couleurs
-            DICT_GENRE = {'Role-Playing': 'dodgerblue',
-            'Action': 'tomato',
-            'Shooter': 'mediumaquamarine',
-            'Sports': 'mediumpurple',
-            'Platform': 'sandybrown',
-            'Racing': 'lightskyblue',
-            'Adventure': 'hotpink',
-            'Fighting': 'palegreen',
-            'Misc': 'violet',
-            'Strategy': 'gold',
-            'Simulation': 'lavender',
-            'Puzzle': 'salmon',
-            'Autre': 'aquamarine'}
-
             fig = px.pie(df_filtered,
                         values='Global_Sales',
                         names='Genre',
@@ -560,7 +575,95 @@ On note que les plus significatives sont:
             st.markdown("""
             Nous constatons qu'il y'a des préférences de genre en fonction des zones géographiques. Comme pour les plateformes le Japon a un genre qui se distingue plus que les autres.""")
 
+    
+    if option == 'Publishers':
+        st.header('Répartition des ventes par publishers')
 
+
+    if option == 'Studios':
+        st.header('Répartition des ventes par studio')
+        
+
+
+    if option == 'Notes':
+            df['Critic_Score'] = round(df['Critic_Score'], 0).astype(int)
+            
+
+
+            option_note = st.multiselect(
+                '**Sélectionner les notes que vous souhaitez comparer :**',
+                options=df['Critic_Score'].unique(),
+                default=[1,2,3,4,5,6,7,8,9,10],
+                key='note_options'
+            )
+
+            # Selected platforms
+            if len(option_note) == 0:
+                st.warning('Merci de sélectionner au moins une note')
+
+            # Filter the data based on the selected platforms
+            df_filtered = df[df['Critic_Score'].isin(option_note)]
+            DICT_NOTE = {'8': 'dodgerblue',
+            '9': 'tomato',
+            '7': 'mediumaquamarine',
+            '6': 'mediumpurple',
+            '10': 'sandybrown',
+            '5': 'lightskyblue',
+            '4': 'hotpink',
+            '3': 'palegreen',
+            '2': 'violet',
+            '1': 'gold'}
+
+            st.subheader('Evolution des ventes par note')
+            df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Critic_Score']).count()).reset_index()
+
+            df_cumulative['Critic_Score'] = df_cumulative['Critic_Score'].astype(str)
+            df_cumulative['Color'] = df_cumulative['Critic_Score'].map(DICT_NOTE)
+
+            fig = px.line(df_cumulative, x='Year', y='Global_Sales', color='Critic_Score', color_discrete_map=DICT_NOTE)
+
+
+            fig.update_layout(
+                xaxis_title='',
+                yaxis_title='',
+                legend_title='Critic_Score',
+                width=800,
+                height=600
+            )
+            st.plotly_chart(fig)
+
+
+            st.subheader('Répartition des ventes par note')
+            df_filtered['Critic_Score'] = df_filtered['Critic_Score'].astype(str)
+
+            fig = px.pie(df_filtered,
+                        values='Global_Sales',
+                        names='Critic_Score',
+                        color='Critic_Score',
+                        color_discrete_map=DICT_NOTE
+                        )
+
+            st.plotly_chart(fig, use_container_width=True)
+            
+            st.subheader('Analyse des valeurs extrêmes par note')
+
+            fig2 = px.box(df_filtered,
+                        x='Critic_Score',
+                        y='Global_Sales',
+                        color='Critic_Score',
+                        color_discrete_map=DICT_NOTE,
+                        hover_data=['Name', 'Genre', 'Year', 'Studio', 'Publisher', 'Critic_Score', 'Global_Sales'])
+
+            fig2.update_layout(
+                xaxis_title="Critic Score",
+                yaxis_title="Global Sales",
+                xaxis_tickangle=75,
+                showlegend=False
+            )
+
+            fig2.update_xaxes(categoryorder='array', categoryarray=sorted(df[df['Critic_Score'].isin(option_note)]))
+
+            st.plotly_chart(fig2, use_container_width=True)
 
 
 

@@ -311,7 +311,7 @@ if selected == "Analyse":
 Après une forte croissance (2005 à 2010), le marché revient à sa tendance initiale. """)
 
         # PIE DE LA REPARTITION
-        
+        st.divider()
         st.subheader("Répartions des ventes par zones géographiques")
         df_areas = df[['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
         df_areas = df_areas.sum().reset_index()
@@ -334,7 +334,7 @@ Les ventes sur d'autres marchés sont inférieures à 10%.
 A noter la concentration particulière d'une part avec :
 North Amercia qui réalise près de la moitié des ventes
 Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le nombre d'habitants.""")
-        
+        st.divider()
         st.subheader("Ventes par jeux vidéo")
         source = ColumnDataSource(df)
         hover = HoverTool(
@@ -406,7 +406,8 @@ Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le n
                 height=600
             )
             st.plotly_chart(fig)
-            
+
+            st.divider()
             st.subheader('Répartition des ventes par plateformes')
             fig = px.pie(df_filtered,
                         values='Global_Sales',
@@ -420,7 +421,7 @@ Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le n
 
 A noter que certaines plateformes tendent à disparaitre car remplacer par leur upgrade (PS2 qui devient la PS3).""")
 
-            
+            st.divider()
             st.subheader('Analyse des valeurs extrêmes par plateformes')
             fig = px.box(df_filtered,
              x='Platform',
@@ -444,7 +445,7 @@ Cette représentation graphique met en évidence le constat effectué précédem
 La DS a également des valeurs extrêmes qu'il sera intéressant de regarder avec New Super Mario.""")
 
 
-            
+            st.divider()
             st.subheader("Analyse de la corrélation des plateformes par zones géographiques")
             comp_platform = df_filtered[['Platform', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
             comp_map = comp_platform.groupby(by=['Platform']).sum()
@@ -519,6 +520,7 @@ C'est le cas du genre :
 * Aventure en 2009, 
 * Sport qui passe d'un déclin vers 2004 à un regain en 2006 avec le lancement de la Wii. """)
 
+            st.divider()
             st.subheader('Répartition des ventes par genre')
             fig = px.pie(df_filtered,
                         values='Global_Sales',
@@ -528,6 +530,7 @@ C'est le cas du genre :
 
             st.plotly_chart(fig, use_container_width=True)
             
+            st.divider()
             st.subheader('Analyse des valeurs extrêmes par genres')
             fig = px.box(df_filtered,
              x='Genre',
@@ -557,7 +560,7 @@ On note que les plus significatives sont:
 * Mario Kart pour "Racing" """)
 
 
-            
+            st.divider()
             st.subheader("Analyse de la corrélation des genres par zones géographiques")
             comp_genre = df_filtered[['Genre', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
             comp_map = comp_genre.groupby(by=['Genre']).sum()
@@ -577,11 +580,241 @@ On note que les plus significatives sont:
 
     
     if option == 'Publishers':
-        st.header('Répartition des ventes par publishers')
+
+            # Clusterisation Publisher
+            df_publi = df.groupby(['Publisher']).agg({'Global_Sales':'sum'})
+            df_publi['cat_publi'] = pd.qcut(df_publi['Global_Sales'],10,
+            labels=['Catégorie 10','Catégorie 9','Catégorie 8','Catégorie 7','Catégorie 6','Catégorie 5','Catégorie 4','Catégorie 3','Catégorie 2','Catégorie 1'])
+
+            df = df.merge(right = df_publi, on = 'Publisher', how = 'left') 
+            df = df.drop(["Global_Sales_y"], axis=1)
+            df = df.rename(columns={'Global_Sales_x' : 'Global_Sales'})
+
+            option_publisher_categ = st.multiselect(
+                '**Sélectionner les catégories de Publishers que vous souhaitez comparer :**',
+                options=df['cat_publi'].unique(),
+                default=['Catégorie 1'],
+                help = "Les Publishers sont répartis par catégories, la Catégorie 1 rassemble les 22 plus gros Publishers. Vous pouvez comparer les catégories entre elles.",
+                key='publisher_options_categ'
+            )
+
+            # Selected platforms
+            if len(option_publisher_categ) == 0:
+                st.warning('Merci de sélectionner au moins un Publisher')
+
+            # Filter the data based on the selected platforms
+            df_filtered = df[df['cat_publi'].isin(option_publisher_categ)]
+
+         
+            option_publisher = st.multiselect(
+                '**Sélectionner les Publishers que vous souhaitez comparer :**',
+                options=df_filtered['Publisher'].unique(),
+                default=df_filtered['Publisher'].unique(),
+                key='publisher_options'
+            )
+
+            # Selected platforms
+            if len(option_publisher) == 0:
+                st.warning('Merci de sélectionner au moins un Publisher')
+
+            # Filter the data based on the selected platforms
+            df_filtered = df_filtered[df_filtered['Publisher'].isin(option_publisher)]
+
+            st.subheader('Evolution des ventes par Publisher')
+            df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Publisher']).count()).reset_index()
+
+            fig = px.line(df_cumulative, x='Year', y='Global_Sales', color='Publisher')
+
+            fig.update_layout(
+                xaxis_title='',
+                yaxis_title='',
+                legend_title='Publisher',
+                width=800,
+                height=600
+            )
+            st.plotly_chart(fig)
+
+
+            st.divider()
+            st.subheader('Répartition des ventes par Publisher')
+            fig = px.pie(df_filtered,
+                        values='Global_Sales',
+                        names='Publisher',
+                        color='Publisher')
+
+            st.plotly_chart(fig, use_container_width=True)
+            
+            st.divider()
+            st.subheader('Analyse des valeurs extrêmes par genres')
+            fig = px.box(df_filtered,
+             x='Publisher',
+             y='Global_Sales',
+             color='Publisher',
+             hover_data=['Name', 'Genre', 'Year', 'Studio', 'Publisher', 'Critic_Score', 'Global_Sales'])
+
+            fig.update_layout(
+                xaxis_title="",
+                yaxis_title="",
+                xaxis_tickangle=75,
+                height=600,
+                showlegend=False
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
+
+
+            st.divider()
+            st.subheader("Analyse de la corrélation des Publishers par zones géographiques")
+            comp_publi = df_filtered[['Publisher', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
+            comp_map = comp_publi.groupby(by=['Publisher']).sum()
+
+            plt.figure(figsize=(15, 10))
+            sns.set(font_scale=1)
+            ht = sns.heatmap(comp_map, annot=True, cmap="cool", fmt='.1f', cbar=False)
+            fig2 = ht.get_figure()
+            ax = ht.axes
+            ax.tick_params(axis='x', colors='white')
+            ax.tick_params(axis='y', colors='white')
+
+            st.pyplot(fig2, use_container_width=True)
 
 
     if option == 'Studios':
-        st.header('Répartition des ventes par studio')
+            # Clusterisation Studio
+            df_studio = df.groupby(['Studio']).agg({'Global_Sales':'sum'})
+            df_studio['cat_studio'] = pd.qcut(df_studio['Global_Sales'],10,
+            labels=['Catégorie 10','Catégorie 9','Catégorie 8','Catégorie 7','Catégorie 6','Catégorie 5','Catégorie 4','Catégorie 3','Catégorie 2','Catégorie 1'])
+            
+            df = df.merge(right = df_studio, on = 'Studio', how = 'left') 
+            df = df.drop(["Global_Sales_y"], axis=1)
+            df = df.rename(columns={'Global_Sales_x' : 'Global_Sales'})
+
+            option_studio_categ = st.multiselect(
+                '**Sélectionner les catégories de Studios que vous souhaitez comparer :**',
+                options=df['cat_studio'].unique(),
+                default=['Catégorie 10','Catégorie 9','Catégorie 8','Catégorie 7','Catégorie 6','Catégorie 5','Catégorie 4','Catégorie 3','Catégorie 2','Catégorie 1'],
+                help = "Les Studios sont répartis par catégories, la Catégorie 1 rassemble les 22 plus gros Studios. Vous pouvez comparer les catégories entre elles.",
+                key='studio_options_categ'
+            )
+
+            # Selected platforms
+            if len(option_studio_categ) == 0:
+                st.warning('Merci de sélectionner au moins un Studio')
+
+            # Filter the data based on the selected platforms
+            df_filtered = df[df['cat_studio'].isin(option_studio_categ)]
+
+         
+            option_studio = st.multiselect(
+                '**Sélectionner les Studios que vous souhaitez comparer :**',
+                options=df_filtered['Studio'].unique(),
+                default=['Capcom',
+                'Konami',
+                'Nintendo EAD',
+                'EA Canada',
+                'Square Enix',
+                'Ubisoft Montreal',
+                'EA Tiburon',
+                'Namco',
+                'Sonic Team',
+                'Hudson Soft',
+                'Rare Ltd.',
+                'Atlus Co.',
+                'Ubisoft',
+              'Game Freak',
+              'Rockstar North',
+              'Infinity Ward',
+              "Traveller's Tales",
+              'Treyarch',
+              'Good Science Studio',
+              'Nintendo SDD',
+              'Sledgehammer Games',
+              'Dice',
+              'Neversoft',
+              'Nintendo EAD / Retro Studios',
+              'Rockstar Games',
+              'EA DICE',
+              'Bethesda Game Studios',
+              'Polyphony Digital',
+              '4J Studios',
+              'Nintendo EAD Tokyo',
+              'Bungie Studios',
+              'Project Sora',
+              'Naughty Dog',
+              'Team Bondi', 
+              'Level 5 / Armor Project',
+              'Bungie'],
+                key='studio_options'
+            )
+
+            # Selected platforms
+            if len(option_studio) == 0:
+                st.warning('Merci de sélectionner au moins un Studio')
+
+            # Filter the data based on the selected platforms
+            df_filtered = df_filtered[df_filtered['Studio'].isin(option_studio)]
+
+            st.subheader('Evolution des ventes par Studio')
+            df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Studio']).count()).reset_index()
+
+            fig = px.line(df_cumulative, x='Year', y='Global_Sales', color='Studio')
+
+            fig.update_layout(
+                xaxis_title='',
+                yaxis_title='',
+                legend_title='Studio',
+                width=800,
+                height=600
+            )
+            st.plotly_chart(fig)
+
+
+            st.divider()
+            st.subheader('Répartition des ventes par Studio')
+            fig = px.pie(df_filtered,
+                        values='Global_Sales',
+                        names='Studio',
+                        color='Studio')
+
+            st.plotly_chart(fig, use_container_width=True)
+            
+            st.divider()
+            st.subheader('Analyse des valeurs extrêmes par genres')
+            fig = px.box(df_filtered,
+             x='Studio',
+             y='Global_Sales',
+             color='Studio',
+             hover_data=['Name', 'Genre', 'Year', 'Publisher', 'Studio', 'Critic_Score', 'Global_Sales'])
+
+            fig.update_layout(
+                xaxis_title="",
+                yaxis_title="",
+                xaxis_tickangle=75,
+                height=600,
+                showlegend=False
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
+
+
+            st.divider()
+            st.subheader("Analyse de la corrélation des Studios par zones géographiques")
+            comp_publi = df_filtered[['Studio', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
+            comp_map = comp_publi.groupby(by=['Studio']).sum()
+
+            plt.figure(figsize=(15, 10))
+            sns.set(font_scale=1)
+            ht = sns.heatmap(comp_map, annot=True, cmap="cool", fmt='.1f', cbar=False)
+            fig2 = ht.get_figure()
+            ax = ht.axes
+            ax.tick_params(axis='x', colors='white')
+            ax.tick_params(axis='y', colors='white')
+
+            st.pyplot(fig2, use_container_width=True)
+            
+
+
+            
         
 
 
@@ -632,7 +865,7 @@ On note que les plus significatives sont:
             )
             st.plotly_chart(fig)
 
-
+            st.divider()
             st.subheader('Répartition des ventes par note')
             df_filtered['Critic_Score'] = df_filtered['Critic_Score'].astype(str)
 
@@ -645,6 +878,7 @@ On note que les plus significatives sont:
 
             st.plotly_chart(fig, use_container_width=True)
             
+            st.divider()
             st.subheader('Analyse des valeurs extrêmes par note')
 
             fig2 = px.box(df_filtered,

@@ -1061,6 +1061,19 @@ if selected == "Modélisation":
         st.pyplot(fig)
         st.markdown('>Les performances des modèles ne sont pas bonnes.  \nNous ne pouvons donc prévoir les ventes !')
 
+        x = ["Régression Logistique", "Arbre de Décision", "Random Forest"]
+        y = [0.11884109217929484, -0.2, 0.10571851988597436]
+
+        fig = px.bar(x=x, y=y)
+        fig.update_layout(
+            title="Résultats",
+            yaxis=dict(range=[-0.5, 1]),
+            xaxis=dict(tickangle=55),
+            yaxis_title="Valeur",
+            xaxis_title="Modèle"
+        )
+        fig.show()
+
 
 
 

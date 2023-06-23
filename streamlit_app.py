@@ -272,15 +272,74 @@ Le dataset obtenu est celui utilisé pour la visualisation et les statistiques""
 
 
 if selected == "Analyse":
+    # Retraitement des plateformes pour préciser les fabricants de celles ci
+    mapping_fabricant = {
+    'WiiU': 'Nintendo',
+    '3DS': 'Nintendo',
+    'DS': 'Nintendo',
+    'Wii': 'Nintendo',
+    'N64': 'Nintendo',
+    'NS': 'Nintendo',
+    'GC': 'Nintendo',
+    'GBA': 'Nintendo',
+    'PS2': 'Sony',
+    'PS': 'Sony',
+    'PS3': 'Sony',
+    'PSP': 'Sony',
+    'PS4': 'Sony',
+    'DC': 'Sega',
+    'PC': 'PC',
+    'X360': 'Microsoft',
+    'XOne': 'Microsoft',
+    'XB': 'Microsoft',
+    'Multi_Plateforme': 'Multi_Plateforme'
+    }
+    df['Fabricant'] = df['Platform'].map(mapping_fabricant)
+
+    # Création d'une nouvelle colonne "Utilisation" pour préciser l'usage des plateformes
+    df['Utilisation'] = ''
+
+    # Condition pour les plates-formes nomades
+    nomade_platforms = ['DS', 'PSP', '3DS', 'GBA']
+    df.loc[df['Platform'].isin(nomade_platforms), 'Utilisation'] = 'Nomade'
+
+    # Condition pour les plates-formes fixes
+    fixe_platforms = ['PS2', 'WiiU', 'PS', 'N64', 'NS', 'PC', 'GC', 'PS3', 'Wii', 'PS4', 'X360', 'DC', 'XOne', 'XB']
+    df.loc[df['Platform'].isin(fixe_platforms), 'Utilisation'] = 'Fixe'
+
     option = st.radio(
     "Menu:",
     ('Le marché','Plateformes', 'Genres', 'Studios','Publishers','Notes'))
     st.divider()
     
     if option == "Le marché":
-        st.title('VgChartz : Analyse des données')
+        st.title('Analyse des données du dataset VgChartz')
+
+        # PIE DE LA REPARTITION
+        st.subheader("Répartions des ventes par zones géographiques")
+        df_areas = df[['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
+        df_areas = df_areas.sum().reset_index()
+        df_areas = df_areas.rename(columns={"index": "Areas", 0: "Sales"})
+        labels = df_areas['Areas']
+        sizes = df_areas['Sales']
+        colors = ['darkviolet', 'royalblue', 'hotpink', 'aqua']
+        fig = px.pie(df_areas,
+                values=sizes,
+                names=labels,
+                color_discrete_sequence=colors
+        )
+        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
-        st.subheader('Evolution des ventes en millions')
+        st.markdown(
+            """Nos ventes se concentrent sur trois principaux marchés : North America, Europe, Japon (≈90%). 
+Les ventes sur d'autres marchés sont inférieures à 10%. 
+
+A noter la concentration particulière d'une part avec :
+* North Amercia qui réalise près de la moitié des ventes
+* Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le nombre d'habitants.""")
+        
+        st.divider()
+        st.subheader('Evolution des ventes en millions par zones géographiques')
         # EVOLUTION DES VENTES
         data_NA = df.groupby(by=['Year'])['NA_Sales'].sum().reset_index()
         data_EU = df.groupby(by=['Year'])['EU_Sales'].sum().reset_index()
@@ -302,40 +361,76 @@ if selected == "Analyse":
             yaxis_range=[0, 600],
         )
         st.plotly_chart(fig, use_container_width=True)
-        st.markdown("> Survolez le graphique pour faire apparaître le détail.")
         st.markdown(
-            """Le marché du jeu vidéo a commencé sa croissance à partir de la seconde moitié des années 90 dynamisé par le lancement de nouvelles plateformes:
+            """Le marché du jeu vidéo a commencé sa croissance à partir de la seconde moitié des années 90, dynamisé par le lancement de nouvelles plateformes :
 * Sortie de la PlayStation en 1995
 * Nouvel élan dans les années 2000 avec la sortie de la Nintendo 64
 
 Après une forte croissance (2005 à 2010), le marché revient à sa tendance initiale. """)
 
-        # PIE DE LA REPARTITION
         st.divider()
-        st.subheader("Répartions des ventes par zones géographiques")
-        df_areas = df[['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales']]
-        df_areas = df_areas.sum().reset_index()
-        df_areas = df_areas.rename(columns={"index": "Areas", 0: "Sales"})
-        labels = df_areas['Areas']
-        sizes = df_areas['Sales']
-        colors = ['darkviolet', 'royalblue', 'hotpink', 'aqua']
-        fig = px.pie(df_areas,
-                values=sizes,
-                names=labels,
-                color_discrete_sequence=colors
-        )
-        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-        st.markdown("> Survolez le graphique pour faire apparaître le détail.")
-        
-        st.markdown(
-            """Nos ventes se concentrent sur trois principaux marchés : North America, Europe, Japon (≈90%). 
-Les ventes sur d'autres marchés sont inférieures à 10%. 
 
-A noter la concentration particulière d'une part avec :
-North Amercia qui réalise près de la moitié des ventes
-Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le nombre d'habitants.""")
+        option_area = st.selectbox(
+            '**Sélectionner la zone géographique que vous souhaitez analyser :**',
+            options=['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales', 'Global_Sales'],
+            help = "NA = North America, EU = Europe, JP = Japan",
+            index=4,
+            key='area_options'
+        )
+
+        DICT_FAB = {'Sony': 'dodgerblue',
+                        'Nintendo': 'tomato',
+                        'Microsoft': 'darkgreen', 
+                        'PC': 'lavender',
+                        'Multi_Plateforme': 'gold',
+                        'Sega':'black'}
+
+        # Vérification de la sélection
+        if option_area is None:
+            st.warning('Merci de sélectionner une zone géographique')
+        else:
+            st.subheader('Evolution des ventes par fabricants de plateforme')
+            st.caption("⚠️ Pensez à modifier le filtre du menu déroulant ci-dessus pour modifier l'affichage par zone géographique")
+
+
+            df_cumulative = pd.DataFrame(df.groupby(['Year', 'Fabricant']).sum().reset_index())
+
+            fig = px.line(df_cumulative, x='Year', y=option_area, color='Fabricant')
+
+            fig.update_layout(
+                xaxis_title='',
+                yaxis_title='',
+                legend_title='Fabricant',
+                width=800,
+                height=600
+            )
+            st.plotly_chart(fig)
+            st.markdown('> Pour ce graphique nous avons procédé à un retraitement manuel des plateformes pour les rassembler par fabricant.')
+
+        # Sous-titre pour le graphique
+        st.subheader('Evolution des ventes par mode de consommation')
+        st.caption("⚠️ Pensez à modifier le filtre du menu déroulant plus haut pour modifier l'affichage par zone géographique")
+
+        df_cumulative_util = df[df['Utilisation'].notna() & (df['Utilisation'] != '')]
+        df_cumulative_util = pd.DataFrame(df_cumulative_util.groupby(['Year', 'Utilisation']).sum().reset_index())
+        
+
+        fig = px.line(df_cumulative_util, x='Year', y=option_area, color='Utilisation')
+
+        fig.update_layout(
+            xaxis_title='',
+            yaxis_title='',
+            legend_title='Utilisation',
+            width=800,
+            height=600
+        )
+        st.plotly_chart(fig)
+        st.markdown("> Pour ce graphique nous avons procédé à un retraitement manuel des plateformes pour les classer par mode d'utilisation.")
+
+
         st.divider()
         st.subheader("Ventes par jeux vidéo")
+        st.caption("⚠️ Pensez à modifier le filtre du menu déroulant plus haut pour modifier l'affichage par zone géographique")
         source = ColumnDataSource(df)
         hover = HoverTool(
         tooltips=[
@@ -351,7 +446,7 @@ Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le n
         doc = curdoc()
         doc.theme = 'dark_minimal'
         doc.add_root(p98)
-        p98.circle(x='Year',y='Global_Sales',source = source,color='darkviolet',size=10)
+        p98.circle(x='Year',y=option_area,source = source,color='darkviolet',size=10)
         p98.add_tools(hover)
         st.bokeh_chart(p98, use_container_width=True)
         st.markdown("> Survolez les points du graphique pour faire apparaître le détail.")
@@ -360,7 +455,7 @@ Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le n
 
     if option == 'Plateformes':
             # Replace smaller values with 'Autre' in the 'Platform' column
-            df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne', 'XB', 'DC'], ['Autre', 'Autre', 'Autre', 'Autre', 'Autre'])
+            #df['Platform'] = df['Platform'].replace(['WiiU', 'PS4', 'XOne', 'XB', 'DC'], ['Autre', 'Autre', 'Autre', 'Autre', 'Autre'])
 
             option_plateforme = st.multiselect(
                 '**Sélectionner les plateformes que vous souhaitez comparer :**',
@@ -377,21 +472,41 @@ Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le n
             df_filtered = df[df['Platform'].isin(option_plateforme)]
 
             # Dictionnaire des couleurs par modalités pour retrouver les mêmes sur l'ensemble des graphiques
-            DICT_PLAT = {'Multi_Plateforme': 'dodgerblue',
-                        'PSP': 'tomato',
+            DICT_PLAT = {'PS2': 'dodgerblue',
+                        'Wii': 'tomato',
                         'GBA': 'mediumaquamarine', 
-                        'PC': 'mediumpurple',
+                        'Autre': 'mediumpurple',
                         'DS': 'sandybrown',
                         'PS3': 'lightskyblue',
-                        'GC': 'hotpink',
-                        'PS': 'palegreen',
-                        'Wii': 'violet',
-                        'PS2': 'gold',
-                        'Autre': 'lavender',
-                        'X360': 'salmon',
-                        '3DS': 'aquamarine',
-                        'NS': 'plum',
-                        'N64': 'peachpuff'}
+                        'GC': 'indigo',
+                        'PS': 'navy',
+                        'PSP': 'dodgerblue',
+                        'Multi_Plateforme': 'gold',
+                        'PC': 'lavender',
+                        'X360': 'darkgreen',
+                        '3DS': 'salmon',
+                        'NS': 'peru',
+                        'N64': 'peachpuff',
+                        'WiiU':'brown',
+                        'PS4':'lightsteelblue',
+                        'XOne':'lime',
+                        'XB':'green',
+                        'DC':'black'}
+            
+            st.subheader('Répartition des ventes par plateformes')
+            fig = px.pie(df_filtered,
+                        values='Global_Sales',
+                        names='Platform',
+                        color='Platform',
+                        color_discrete_map=DICT_PLAT)
+
+            st.plotly_chart(fig, use_container_width=True)
+            st.markdown("""
+            Nous constatons que les parts de marché se répartissent de manière équilibré entre les plateformes.
+
+A noter que certaines plateformes tendent à disparaitre car remplacer par leur upgrade (PS2 qui devient la PS3).""")
+
+            st.divider()
             
             st.subheader('Evolution des ventes par plateformes')
             df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Platform']).count()).reset_index()
@@ -408,20 +523,7 @@ Le Japon qui réalise plus de 10% des ventes à mettre en perspecitive avec le n
             st.plotly_chart(fig)
 
             st.divider()
-            st.subheader('Répartition des ventes par plateformes')
-            fig = px.pie(df_filtered,
-                        values='Global_Sales',
-                        names='Platform',
-                        color='Platform',
-                        color_discrete_map=DICT_PLAT)
-
-            st.plotly_chart(fig, use_container_width=True)
-            st.markdown("""
-            Nous constatons que les parts de marché se répartissent de manière équilibré entre les plateformes.
-
-A noter que certaines plateformes tendent à disparaitre car remplacer par leur upgrade (PS2 qui devient la PS3).""")
-
-            st.divider()
+            
             st.subheader('Analyse des valeurs extrêmes par plateformes')
             fig = px.box(df_filtered,
              x='Platform',
@@ -498,6 +600,17 @@ La DS a également des valeurs extrêmes qu'il sera intéressant de regarder ave
             'Puzzle': 'salmon',
             'Autre': 'aquamarine'}
 
+            st.subheader('Répartition des ventes par genre')
+            fig = px.pie(df_filtered,
+                        values='Global_Sales',
+                        names='Genre',
+                        color='Genre',
+                        color_discrete_map=DICT_GENRE)
+
+            st.plotly_chart(fig, use_container_width=True)
+            
+            st.divider()
+
             st.subheader('Evolution des ventes par genre')
             df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Genre']).count()).reset_index()
 
@@ -521,16 +634,7 @@ C'est le cas du genre :
 * Sport qui passe d'un déclin vers 2004 à un regain en 2006 avec le lancement de la Wii. """)
 
             st.divider()
-            st.subheader('Répartition des ventes par genre')
-            fig = px.pie(df_filtered,
-                        values='Global_Sales',
-                        names='Genre',
-                        color='Genre',
-                        color_discrete_map=DICT_GENRE)
 
-            st.plotly_chart(fig, use_container_width=True)
-            
-            st.divider()
             st.subheader('Analyse des valeurs extrêmes par genres')
             fig = px.box(df_filtered,
              x='Genre',
@@ -620,6 +724,17 @@ On note que les plus significatives sont:
             # Filter the data based on the selected platforms
             df_filtered = df_filtered[df_filtered['Publisher'].isin(option_publisher)]
 
+
+            st.subheader('Répartition des ventes par Publisher')
+            fig = px.pie(df_filtered,
+                        values='Global_Sales',
+                        names='Publisher',
+                        color='Publisher')
+
+            st.plotly_chart(fig, use_container_width=True)
+            
+            st.divider()
+
             st.subheader('Evolution des ventes par Publisher')
             df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Publisher']).count()).reset_index()
 
@@ -636,16 +751,8 @@ On note que les plus significatives sont:
 
 
             st.divider()
-            st.subheader('Répartition des ventes par Publisher')
-            fig = px.pie(df_filtered,
-                        values='Global_Sales',
-                        names='Publisher',
-                        color='Publisher')
-
-            st.plotly_chart(fig, use_container_width=True)
             
-            st.divider()
-            st.subheader('Analyse des valeurs extrêmes par genres')
+            st.subheader('Analyse des valeurs extrêmes par Publisher')
             fig = px.box(df_filtered,
              x='Publisher',
              y='Global_Sales',
@@ -680,34 +787,10 @@ On note que les plus significatives sont:
 
 
     if option == 'Studios':
-            # Clusterisation Studio
-            df_studio = df.groupby(['Studio']).agg({'Global_Sales':'sum'})
-            df_studio['cat_studio'] = pd.qcut(df_studio['Global_Sales'],10,
-            labels=['Catégorie 10','Catégorie 9','Catégorie 8','Catégorie 7','Catégorie 6','Catégorie 5','Catégorie 4','Catégorie 3','Catégorie 2','Catégorie 1'])
-            
-            df = df.merge(right = df_studio, on = 'Studio', how = 'left') 
-            df = df.drop(["Global_Sales_y"], axis=1)
-            df = df.rename(columns={'Global_Sales_x' : 'Global_Sales'})
 
-            option_studio_categ = st.multiselect(
-                '**Sélectionner les catégories de Studios que vous souhaitez comparer :**',
-                options=df['cat_studio'].unique(),
-                default=['Catégorie 10','Catégorie 9','Catégorie 8','Catégorie 7','Catégorie 6','Catégorie 5','Catégorie 4','Catégorie 3','Catégorie 2','Catégorie 1'],
-                help = "Les Studios sont répartis par catégories, la Catégorie 1 rassemble les 22 plus gros Studios. Vous pouvez comparer les catégories entre elles.",
-                key='studio_options_categ'
-            )
-
-            # Selected platforms
-            if len(option_studio_categ) == 0:
-                st.warning('Merci de sélectionner au moins un Studio')
-
-            # Filter the data based on the selected platforms
-            df_filtered = df[df['cat_studio'].isin(option_studio_categ)]
-
-         
             option_studio = st.multiselect(
                 '**Sélectionner les Studios que vous souhaitez comparer :**',
-                options=df_filtered['Studio'].unique(),
+                options=df['Studio'].unique(),
                 default=['Capcom',
                 'Konami',
                 'Nintendo EAD',
@@ -752,7 +835,17 @@ On note que les plus significatives sont:
                 st.warning('Merci de sélectionner au moins un Studio')
 
             # Filter the data based on the selected platforms
-            df_filtered = df_filtered[df_filtered['Studio'].isin(option_studio)]
+            df_filtered = df[df['Studio'].isin(option_studio)]
+
+            st.subheader('Répartition des ventes par Studio')
+            fig = px.pie(df_filtered,
+                        values='Global_Sales',
+                        names='Studio',
+                        color='Studio')
+
+            st.plotly_chart(fig, use_container_width=True)
+            
+            st.divider()
 
             st.subheader('Evolution des ventes par Studio')
             df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Studio']).count()).reset_index()
@@ -770,16 +863,8 @@ On note que les plus significatives sont:
 
 
             st.divider()
-            st.subheader('Répartition des ventes par Studio')
-            fig = px.pie(df_filtered,
-                        values='Global_Sales',
-                        names='Studio',
-                        color='Studio')
-
-            st.plotly_chart(fig, use_container_width=True)
             
-            st.divider()
-            st.subheader('Analyse des valeurs extrêmes par genres')
+            st.subheader('Analyse des valeurs extrêmes par Studio')
             fig = px.box(df_filtered,
              x='Studio',
              y='Global_Sales',
@@ -847,25 +932,6 @@ On note que les plus significatives sont:
             '2': 'violet',
             '1': 'gold'}
 
-            st.subheader('Evolution des ventes par note')
-            df_cumulative = pd.DataFrame(df_filtered.groupby(['Year', 'Critic_Score']).count()).reset_index()
-
-            df_cumulative['Critic_Score'] = df_cumulative['Critic_Score'].astype(str)
-            df_cumulative['Color'] = df_cumulative['Critic_Score'].map(DICT_NOTE)
-
-            fig = px.line(df_cumulative, x='Year', y='Global_Sales', color='Critic_Score', color_discrete_map=DICT_NOTE)
-
-
-            fig.update_layout(
-                xaxis_title='',
-                yaxis_title='',
-                legend_title='Critic_Score',
-                width=800,
-                height=600
-            )
-            st.plotly_chart(fig)
-
-            st.divider()
             st.subheader('Répartition des ventes par note')
             df_filtered['Critic_Score'] = df_filtered['Critic_Score'].astype(str)
 
@@ -879,6 +945,7 @@ On note que les plus significatives sont:
             st.plotly_chart(fig, use_container_width=True)
             
             st.divider()
+
             st.subheader('Analyse des valeurs extrêmes par note')
 
             fig2 = px.box(df_filtered,
@@ -898,7 +965,6 @@ On note que les plus significatives sont:
             fig2.update_xaxes(categoryorder='array', categoryarray=sorted(df[df['Critic_Score'].isin(option_note)]))
 
             st.plotly_chart(fig2, use_container_width=True)
-
 
 
 # Modelisation

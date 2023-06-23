@@ -1037,7 +1037,7 @@ if selected == "Modélisation":
 
         # Afficher le graphique dans Streamlit
         sns.set(style="ticks", context="talk")
-        #plt.style.use("dark_background")
+        plt.style.use("dark_background")
         st.pyplot(fig)
         st.markdown('Notre analyse nous indique que les variables Critic_score et Year sont celles qui ont le plus de poids.')
         st.markdown('<p class="purple">Etape 5: Calcul des meilleurs hyperparamètres via une GridSearch.</p>', unsafe_allow_html=True)
@@ -1056,7 +1056,7 @@ if selected == "Modélisation":
         ax.set_title("Résultats")
         ax.tick_params(axis="x", rotation=55)
         sns.set(style="ticks", context="talk")
-        #plt.style.use("dark_background")
+        plt.style.use("dark_background")
         st.pyplot(fig)
         
         
